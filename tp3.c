@@ -117,13 +117,15 @@ void crediter(int idEtu, float montant, char *descr, BlockChain bc){
     ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
 }
 
-
 /* ********************************
  * 6.	Paiement d'un repas :
  ******************************** */
 int payer(int idEtu, float montant, char *descr, BlockChain bc){
-    ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
-    return 1;
+    if (soldeEtudiant(idEtu, bc)>montant){
+        ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
+        return 1;
+    }
+    return 0;
 }
 
 

@@ -114,8 +114,7 @@ float soldeEtudiant(int idEtu, BlockChain bc){
  * 5.	Rechargement du compte d’un étudiant :
  ******************************** */
 void crediter(int idEtu, float montant, char *descr, BlockChain bc){
-    // TODO
-
+    ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
 }
 
 
@@ -123,7 +122,7 @@ void crediter(int idEtu, float montant, char *descr, BlockChain bc){
  * 6.	Paiement d'un repas :
  ******************************** */
 int payer(int idEtu, float montant, char *descr, BlockChain bc){
-    // TODO
+    ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
     return 1;
 }
 

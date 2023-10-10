@@ -64,18 +64,18 @@ T_Transaction *ajouterTransaction(int idEtu, float montant, char *descr, T_Trans
 BlockChain ajouterBlock(BlockChain bc){ // ici on a un pointeur vers le premier element de la liste des blocks = bc
     BlockChain chaine_de_blocs;
     if (bc == NULL){
-        chaine_de_blocs.idBloc = 0;//premier bloc
-        chaine_de_blocs.dateBloc = dateJ; //attention dateJ devra être modifiable pour le bien du test
-        chaine_de_blocs = creerBloc(int chaine_de_blocs.idBloc, char* chaine_de_blocs.dateBloc);
-        bc.suivant = NULL;
+        chaine_de_blocs->idBloc = 0;//premier bloc
+        chaine_de_blocs->dateBloc = dateJ; //attention dateJ devra être modifiable pour le bien du test
+        chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, chaine_de_blocs->dateBloc);
+        bc->suivant = NULL;
     } else {
-        chaine_de_blocs.idBloc = bc.idBloc+1;
-        chaine_de_blocs = creerBloc(int chaine_de_blocs.idBloc, char* chaine_de_blocs.dateBloc);
-        chaine_de_blocs.suivant = bc.idBloc;
+        chaine_de_blocs->idBloc = 1 + bc->idBloc;
+        chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, chaine_de_blocs->dateBloc);
+        chaine_de_blocs->suivant = bc->idBloc;
     }
     //on a besoin de la date
     //pour déclanger un ajout de bloc, il faut vérifier que c'est une date diff du bloc precedent
-    
+
     return chaine_de_blocs;
 }
 

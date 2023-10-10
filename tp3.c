@@ -8,12 +8,12 @@
 
 
 /* ********************************
- * Création et initialisation Bloc
+ * CrÃ©ation et initialisation Bloc
  ******************************** */
 T_Block *creerBloc(int id, char* date){
     T_Block *nouveauBloc = malloc(sizeof(T_Block));
     if (nouveauBloc != NULL) {
-        // l'allocation mémoire s'est bien passée
+        // l'allocation mÃ©moire s'est bien passÃ©e
         nouveauBloc->dateBloc = malloc(strlen(date) + 1);
         strcpy(nouveauBloc->dateBloc,date);
         nouveauBloc->idBloc = id;
@@ -25,13 +25,13 @@ T_Block *creerBloc(int id, char* date){
 }
 
 /* **************************************
- * Création et initialisation Transaction
+ * CrÃ©ation et initialisation Transaction
  ************************************** */
 T_Transaction *creerTransaction(int id, float montant, char *descr) {
     T_Transaction *nouvelleTransaction = malloc(sizeof(T_Transaction));
     if (nouvelleTransaction != NULL) {
-        // l'allocation mémoire s'est bien passée
-        nouvelleTransaction->description = malloc(strlen(descr) + 1); // Important : malloc permet d'avoir l'espace mémoire dédié pour notre champ de structure
+        // l'allocation mÃ©moire s'est bien passÃ©e
+        nouvelleTransaction->description = malloc(strlen(descr) + 1); // Important : malloc permet d'avoir l'espace mÃ©moire dÃ©diÃ© pour notre champ de structure
         strcpy(nouvelleTransaction->description,descr);
         nouvelleTransaction->idEtu = id;
         nouvelleTransaction->montant = montant;
@@ -43,17 +43,22 @@ T_Transaction *creerTransaction(int id, float montant, char *descr) {
 
 
 /* ********************************
- * 1.	Ajout d'une transaction en tête d'une liste de transactions :
+ * 1.	Ajout d'une transaction en tÃªte d'une liste de transactions :
  ******************************** */
 T_Transaction *ajouterTransaction(int idEtu, float montant, char *descr, T_Transaction *listeTransaction) {
-    // TODO
-    return NULL;
+    T_Transaction* nouveau;
+    nouveau = creerTransaction(int idEtu, float montant, char *descr);
+    //laissÃ© exprÃ¨s pour la lisibilitÃ© mais pas utile
+    if (listeTransaction!=NULL){
+        nouveau->suivant=listeTransaction;
+    }
+    return nouveau;
 }
 
 
 
 /* ********************************
- * 2.	Ajout d'un bloc en tête de la BlockChain :
+ * 2.	Ajout d'un bloc en tÃªte de la BlockChain :
  ******************************** */
 BlockChain ajouterBlock(BlockChain bc){
     // TODO
@@ -62,7 +67,7 @@ BlockChain ajouterBlock(BlockChain bc){
 
 
 /* ********************************
- * 3.	Calcul de la somme des EATCoin crédités et dépensés par un étudiant sur une journée :
+ * 3.	Calcul de la somme des EATCoin crÃ©ditÃ©s et dÃ©pensÃ©s par un Ã©tudiant sur une journÃ©e :
  ******************************** */
 float totalTransactionEtudiantBlock(int idEtu, T_Block b){
     // TODO
@@ -71,7 +76,7 @@ float totalTransactionEtudiantBlock(int idEtu, T_Block b){
 
 
 /* ********************************
- * 4.	Calcul du solde total d'un étudiant:
+ * 4.	Calcul du solde total d'un Ã©tudiant:
  ******************************** */
 float soldeEtudiant(int idEtu, BlockChain bc){
     // TODO
@@ -80,7 +85,7 @@ float soldeEtudiant(int idEtu, BlockChain bc){
 
 
 /* ********************************
- * 5.	Rechargement du compte d’un étudiant :
+ * 5.	Rechargement du compte dâ€™un Ã©tudiant :
  ******************************** */
 void crediter(int idEtu, float montant, char *descr, BlockChain bc){
     // TODO
@@ -98,7 +103,7 @@ int payer(int idEtu, float montant, char *descr, BlockChain bc){
 
 
 /* ********************************
- * 7.	Historique d’un étudiant :
+ * 7.	Historique dâ€™un Ã©tudiant :
  ******************************** */
 void consulter(int idEtu, BlockChain bc){
     // TODO
@@ -107,7 +112,7 @@ void consulter(int idEtu, BlockChain bc){
 
 
 /* ********************************
- * 8.	Transfert de EATCoins entre deux étudiants :
+ * 8.	Transfert de EATCoins entre deux Ã©tudiants :
  ******************************** */
 int transfert(int idSource, int idDestination, float montant, char *descr, BlockChain bc){
     // TODO

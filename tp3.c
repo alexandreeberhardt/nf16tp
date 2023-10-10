@@ -4,7 +4,8 @@
 #include "tp3.h"
 
 
-
+//remarque pour la date : convertir en entier la chaine de char et ajouter par exemple +3 ou autre, puis revenir en char
+// on peut aussi utiliser directement la date où se positionner
 
 
 /* ********************************

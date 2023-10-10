@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tp3.h"
-#include "tp3.C"
+#include "tp3.c"
 
 int main(){
 
@@ -54,7 +54,7 @@ int main(){
                 printf("\n\nERREUR : votre choix n'est valide ! ");
         }
         printf("\n\n\n");
-        viderBuffer(); // supprimer de l'entrée standard le retour charriot et les éventuels caractères supplémentaires tapés par l'utilisateur
+        viderBuffer(); // supprimer de l'entrÃ©e standard le retour charriot et les Ã©ventuels caractÃ¨res supplÃ©mentaires tapÃ©s par l'utilisateur
     }
 
     return 0;

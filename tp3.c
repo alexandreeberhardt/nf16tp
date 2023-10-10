@@ -133,8 +133,22 @@ int payer(int idEtu, float montant, char *descr, BlockChain bc){
  * 7.	Historique d’un étudiant :
  ******************************** */
 void consulter(int idEtu, BlockChain bc){
-    // TODO
-
+    float solde = soldeEtudiant(idEtu,bc);
+    int i=0;
+    {
+    T_Transaction *t;
+        while (bc &&i<5){
+            t=bc->listeTransactions;
+            while (t && i<5){
+                if (t->idEtu==idEtu){
+                    printf("transaction n°%d : le %s, %s, %lf€",i,bc->dateBloc,t->description,t->montant);
+                    i++;
+                }
+                t=t->suivant;
+            }
+        bc=bc->suivant;
+        }
+    }
 }
 
 

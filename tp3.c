@@ -156,8 +156,12 @@ void consulter(int idEtu, BlockChain bc){
  * 8.	Transfert de EATCoins entre deux étudiants :
  ******************************** */
 int transfert(int idSource, int idDestination, float montant, char *descr, BlockChain bc){
-    // TODO
-    return 1;
+    if (soldeEtudiant(idSource, bc)>montant){
+        payer(idSource, montant, *descr, bc);
+        crediter(idDestination, montant, *descr, bc);
+        return 1;
+    }
+    return 0;
 }
 
 

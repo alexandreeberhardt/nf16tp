@@ -83,9 +83,18 @@ BlockChain ajouterBlock(BlockChain bc){ // ici on a un pointeur vers le premier 
  * 3.	Calcul de la somme des EATCoin crédités et dépensés par un étudiant sur une journée :
  ******************************** */
 float totalTransactionEtudiantBlock(int idEtu, T_Block b){
-    // TODO
-    return 0;
+    float total=0;
+    T_Transaction *t;
+    t=b.listeTransactions;
+    while (t){
+        if (t->idEtu==idEtu){
+        total+=t->montant;
+        }
+        t=t->suivant;
+    }
+    return total;
 }
+
 
 
 /* ********************************

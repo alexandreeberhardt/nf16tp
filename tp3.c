@@ -101,8 +101,12 @@ float totalTransactionEtudiantBlock(int idEtu, T_Block b){
  * 4.	Calcul du solde total d'un étudiant:
  ******************************** */
 float soldeEtudiant(int idEtu, BlockChain bc){
-    // TODO
-    return 0;
+    float solde=0;
+    while (bc){
+        solde+=totalTransactionEtudiantBlock(idEtu, *bc);
+        bc=bc->suivant;
+        }
+    return solde;
 }
 
 

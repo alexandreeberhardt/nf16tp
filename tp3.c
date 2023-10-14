@@ -47,13 +47,13 @@ T_Transaction *creerTransaction(int id, float montant, char *descr) {
  * 1.	Ajout d'une transaction en tête d'une liste de transactions :
  ******************************** */
 T_Transaction *ajouterTransaction(int idEtu, float montant, char *descr, T_Transaction *listeTransaction) {
-    T_Transaction* nouveau;
-    nouveau = creerTransaction(int idEtu, float montant, char *descr);
+    T_Transaction* nouveauLT;
+    nouveauLT = creerTransaction(idEtu, montant, descr);
     //laissé exprès pour la lisibilité mais pas utile
     if (listeTransaction!=NULL){
-        nouveau->suivant=listeTransaction;
+        nouveauLT->suivant=listeTransaction;
     }
-    return nouveau;
+    return nouveauLT;
 }
 
 
@@ -62,16 +62,18 @@ T_Transaction *ajouterTransaction(int idEtu, float montant, char *descr, T_Trans
  * 2.	Ajout d'un bloc en tête de la BlockChain :
  ******************************** */
 BlockChain ajouterBlock(BlockChain bc){ // ici on a un pointeur vers le premier element de la liste des blocks = bc
-    BlockChain chaine_de_blocs;
+    BlockChain chaine_de_blocs = malloc(sizeof(T_Block));
+    T_Block nouveaubloc;
+    char *dateJ="20231014";
     if (bc == NULL){
-        chaine_de_blocs->idBloc = 0;//premier bloc
-        chaine_de_blocs->dateBloc = dateJ; //attention dateJ devra être modifiable pour le bien du test
-        chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, chaine_de_blocs->dateBloc);
-        bc->suivant = NULL;
+        //strcpy(chaine_de_blocs->dateBloc,dateJ);
+        //chaine_de_blocs->dateBloc = dateJ; //attention dateJ devra être modifiable pour le bien du test
+        chaine_de_blocs = creerBloc(0, dateJ);
+        chaine_de_blocs->suivant = NULL;
     } else {
         chaine_de_blocs->idBloc = 1 + bc->idBloc;
-        chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, chaine_de_blocs->dateBloc);
-        chaine_de_blocs->suivant = bc->idBloc;
+        chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, dateJ);
+        chaine_de_blocs->suivant = bc;
     }
     //on a besoin de la date
     //pour déclanger un ajout de bloc, il faut vérifier que c'est une date diff du bloc precedent
@@ -113,8 +115,11 @@ float soldeEtudiant(int idEtu, BlockChain bc){
 /* ********************************
  * 5.	Rechargement du compte d’un étudiant :
  ******************************** */
-void crediter(int idEtu, float montant, char *descr, BlockChain bc){
-    ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
+void crediter(int idEtu, float montant, char*descr, BlockChain bc){
+
+    ajouterTransaction(idEtu,montant,*descr,bc);//->listeTransactions);
+    ajouterBlock(bc);
+    return 0;
 }
 
 /* ********************************
@@ -122,7 +127,7 @@ void crediter(int idEtu, float montant, char *descr, BlockChain bc){
  ******************************** */
 int payer(int idEtu, float montant, char *descr, BlockChain bc){
     if (soldeEtudiant(idEtu, bc)>montant){
-        ajouterTransaction(idEtu,montant,*descr,bc->listeTransactions);
+        ajouterTransaction(idEtu,montant,descr,bc);//->listeTransactions);
         return 1;
     }
     return 0;
@@ -149,6 +154,7 @@ void consulter(int idEtu, BlockChain bc){
         bc=bc->suivant;
         }
     }
+    return 0;
 }
 
 

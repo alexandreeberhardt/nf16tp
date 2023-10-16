@@ -116,10 +116,25 @@ float soldeEtudiant(int idEtu, BlockChain bc){
  * 5.	Rechargement du compte d’un étudiant :
  ******************************** */
 void crediter(int idEtu, float montant, char*descr, BlockChain bc){
+    T_Transaction *listeTransaction = NULL;
+    listeTransaction = bc->listeTransactions;
+    listeTransaction = ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);
+    while(listeTransaction!=NULL){
+        printf("\nid de nouv = %d\n",listeTransaction->idEtu);
+        printf("montant de nouv = %f\n",listeTransaction->montant);
+        printf("descrip de nouv = %s\n",listeTransaction->description);
+        listeTransaction = listeTransaction->suivant;
+    }
+    BlockChain listeB=NULL;
+    listeB = ajouterBlock(bc);
+    while(listeB!=NULL){
+        printf("\nid de nouv Liste bloc = %d\n",listeB->idBloc);
+        printf("descrip de nouv liste bloc = %s\n",listeB->dateBloc);
+        listeB = listeB->suivant;
+    }
+    //ici pas besoin de créer un bloc car on ajoute la transaction dans le premier bloc et pas dans un nouveau
 
-    ajouterTransaction(idEtu,montant,*descr,bc);//->listeTransactions);
-    ajouterBlock(bc);
-    return 0;
+    return bc;
 }
 
 /* ********************************

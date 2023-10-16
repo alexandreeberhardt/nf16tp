@@ -16,6 +16,9 @@ struct Block {
     T_Transaction *listeTransactions;
     struct Block *suivant;
 };
+
+
+
 typedef struct Block T_Block;
 
 typedef T_Block *BlockChain;

@@ -6,7 +6,7 @@ int main(){
 
     BlockChain ma_chaine_de_blocs = NULL;
     BlockChain premier_bloc = NULL;
-     BlockChain listeB = NULL;
+    BlockChain listeB = NULL;
     /*char chaine[10];
     printf("chaine ?\n");
     fgets(chaine, 10, stdin);
@@ -38,6 +38,11 @@ int main(){
         listeTransaction = listeTransaction->suivant;
     }
     listeTransaction = premiere_transaction;
+    id = 20;
+    montant = 30;
+    descr= "Soir";
+    listeTransaction = ajouterTransaction(id,montant,descr,listeTransaction);
+    premiere_transaction = listeTransaction;
 
     //test creerbloc
     int ide = 1;
@@ -154,7 +159,7 @@ int main(){
                 premier_bloc = ma_chaine_de_blocs;
                 printf("entrez le numero du bloc a afficher : ");
                 scanf("%d",&idbloc);
-                printf("idbloc = %d",idbloc);
+                //printf("idbloc = %d",idbloc);
                 while (idbloc>=ma_chaine_de_blocs->idBloc+1){
                     printf("\nL'identifiant de bloc indique n'existe pas. Veuillez en saisir un autre :\n");
                     scanf("%d",&idbloc);
@@ -189,35 +194,51 @@ int main(){
             case '3' : //on considère que le bloc en premier dans la liste est le bloc du jour
                 {
                 int idetu;
-                int i;
+                premier_bloc = ma_chaine_de_blocs;
                 printf("entrez l'id de l'etudiant a afficher : ");
                 scanf("%d",&idetu);
-                float solde = soldeEtudiant(idetu,ma_chaine_de_blocs);
-                T_Transaction *t;
-                t=ma_chaine_de_blocs->listeTransactions;
-                while (t!=NULL){
-                    if (t->idEtu==idetu){
-                        printf("transaction n°%d : le %s, %s, %lf€ \n",i,ma_chaine_de_blocs->dateBloc,t->description,t->montant);
-                        i++;
+                printf("idetu = %d",idetu);
+                if(ma_chaine_de_blocs!=NULL){
+                    T_Transaction *t;
+                    t=ma_chaine_de_blocs->listeTransactions;
+                    if (t!=NULL){
+                        int i=1;
+                        int nb_T=0;
+                        while (t!=NULL){
+                                if (idetu==t->idEtu){
+                                    nb_T++;
+                                    printf("\nidentifiant de l'etudiant n %d= %d\n",i,t->idEtu);//changer le numero de la transaction pour quelle soit comptée en fonction du nb de transactiond e l'étudiant
+                                    printf("montant de la transaction n %d = %f\n",i, t->montant);
+                                    printf("descrip de la transaction n %d = %s\n",i, t->description);
+                                }
+                                t = t->suivant;
+                                i++;
+                        }
+                        if (nb_T==0){
+                            printf("Il n'y a pas de transaction pour l'etudiant a l'identifiant n %d.\n",idetu);
+                        }
+                    }else{
+                        printf("Il n'y a pas de transaction.\n");
                     }
-                    t=t->suivant;
+                }
+
                 }
                 break;
-                }
+
             case '4' :
                 {
-
                 int idetu;
-                printf("entrez l'id de l'etudiant a afficher : ");
+                printf("entrez l'id de l'etudiant dont on souhaite afficher les 5 dernieres transactions : ");
                 scanf("%d",&idetu);
                 consulter(idetu, ma_chaine_de_blocs);
-                break;
                 }
+                break;
+
             case '5' :
                 {
                 int idetu;
                 float montant;
-                char chaine[100];
+                //char chaine[100];
                 char * desc;
 
                 printf("entrez l'id de l'etudiant a crediter : ");
@@ -232,23 +253,38 @@ int main(){
                 printf("\n");
 
                 viderBuffer();
-                printf("entrez la description en moins de 100 caracteres :");
-                fgets(chaine, 100, stdin);
-                printf("chaine = %s\n", chaine);
-                printf("idetu = %d, montant = %f, descrip = %s ", idetu, montant, chaine);
-                char*descr= "Midi";
-                //desc = (char *)malloc(strlen(chaine) * sizeof(char));
-                //*desc = chaine;
-                crediter(idetu, montant, desc, ma_chaine_de_blocs);
-
-
-                break;
+                desc = (char *)malloc(100* sizeof(char));
+                if (desc != NULL){
+                    printf("entrez la description en moins de 100 caracteres :");
+                    fgets(desc, 100, stdin);
+                    size_t length = strcspn(desc, "\n");
+                    if (length < strlen(desc)) {
+                        desc[length] = '\0';
+                    }
+                }else{
+                    printf("Pas d'allocation memoire pour description.\n");
                 }
+                printf("description = %s\n", desc);
+                printf("\nVotre saisie est : idetu = %d, montant = %f, descrip = %s \n", idetu, montant, desc);
+                crediter(idetu, montant, desc, ma_chaine_de_blocs);
+                }
+                printf("\n\nAppuyez sur entrer pour continuer\n");
+                break;
 
-            case '6' :
+
+            case '6' ://payer un repas, donc il faut débiter un compte
+                {
+                    //1 : verifier que solde suffisant
+                    //2 : sinon demander de créditer
+                    //3 : si solde suffisant alors utiliser la fonction payer
+                }
                 break;
 
             case '7' :
+                {
+                    //verifier le solde des deux etudiants surement?
+                    //utiliser la fonction transfert
+                }
                break;
 
             case '8' :

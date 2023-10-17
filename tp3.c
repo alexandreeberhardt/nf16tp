@@ -116,25 +116,24 @@ float soldeEtudiant(int idEtu, BlockChain bc){
  * 5.	Rechargement du compte d’un étudiant :
  ******************************** */
 void crediter(int idEtu, float montant, char*descr, BlockChain bc){
-    T_Transaction *listeTransaction = NULL;
-    listeTransaction = bc->listeTransactions;
-    listeTransaction = ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);
-    while(listeTransaction!=NULL){
-        printf("\nid de nouv = %d\n",listeTransaction->idEtu);
-        printf("montant de nouv = %f\n",listeTransaction->montant);
-        printf("descrip de nouv = %s\n",listeTransaction->description);
-        listeTransaction = listeTransaction->suivant;
-    }
-    BlockChain listeB=NULL;
-    listeB = ajouterBlock(bc);
-    while(listeB!=NULL){
-        printf("\nid de nouv Liste bloc = %d\n",listeB->idBloc);
-        printf("descrip de nouv liste bloc = %s\n",listeB->dateBloc);
-        listeB = listeB->suivant;
-    }
     //ici pas besoin de créer un bloc car on ajoute la transaction dans le premier bloc et pas dans un nouveau
+    if (bc!=NULL){
+        T_Transaction *listeTransaction = NULL;
+        T_Transaction *premiere_transaction = listeTransaction;
+        listeTransaction = ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);//ici on utilise le premier bloc de la liste pour ajouter la transaction car on concidère que c'est celle du jour
+        premiere_transaction = listeTransaction;
+        while(listeTransaction!=NULL){
+            printf("\nid de nouv = %d\n",listeTransaction->idEtu);
+            printf("montant de nouv = %f\n",listeTransaction->montant);
+            printf("descrip de nouv = %s\n",listeTransaction->description);
+            listeTransaction = listeTransaction->suivant;
+        }
 
-    return bc;
+        listeTransaction = premiere_transaction;
+        bc->listeTransactions=listeTransaction;
+
+    }
+    return 0;
 }
 
 /* ********************************
@@ -142,7 +141,7 @@ void crediter(int idEtu, float montant, char*descr, BlockChain bc){
  ******************************** */
 int payer(int idEtu, float montant, char *descr, BlockChain bc){
     if (soldeEtudiant(idEtu, bc)>montant){
-        ajouterTransaction(idEtu,montant,descr,bc);//->listeTransactions);
+        ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);
         return 1;
     }
     return 0;
@@ -154,19 +153,24 @@ int payer(int idEtu, float montant, char *descr, BlockChain bc){
  ******************************** */
 void consulter(int idEtu, BlockChain bc){
     float solde = soldeEtudiant(idEtu,bc);
-    int i=0;
+    int i=1;
     {
     T_Transaction *t;
-        while (bc &&i<5){
+        while (bc &&i<=5){
             t=bc->listeTransactions;
-            while (t && i<5){
+            while (t && i<=5){
                 if (t->idEtu==idEtu){
-                    printf("transaction n°%d : le %s, %s, %lf€",i,bc->dateBloc,t->description,t->montant);
+                    printf("\ndate de la transaction n %d = %s\n",i,bc->dateBloc);
+                    printf("montant de la transaction n %d = %f\n",i, t->montant);
+                    printf("descrip de la transaction n %d = %s\n",i, t->description);
                     i++;
                 }
                 t=t->suivant;
             }
         bc=bc->suivant;
+        }
+        if (i<5){
+            printf("Il n'y a pas d'autres transactions pour cet etudiant.");
         }
     }
     return 0;

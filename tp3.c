@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "tp3.h"
-
+char *dateJ="20231024";
 
 //remarque pour la date : convertir en entier la chaine de char et ajouter par exemple +3 ou autre, puis revenir en char
 // on peut aussi utiliser directement la date où se positionner
@@ -64,17 +65,17 @@ T_Transaction *ajouterTransaction(int idEtu, float montant, char *descr, T_Trans
 BlockChain ajouterBlock(BlockChain bc){ // ici on a un pointeur vers le premier element de la liste des blocks = bc
     BlockChain chaine_de_blocs = malloc(sizeof(T_Block));
     T_Block nouveaubloc;
-    char *dateJ="20231014";
-    if (bc == NULL){
+
+        if (bc == NULL){
         //strcpy(chaine_de_blocs->dateBloc,dateJ);
         //chaine_de_blocs->dateBloc = dateJ; //attention dateJ devra être modifiable pour le bien du test
-        chaine_de_blocs = creerBloc(0, dateJ);
-        chaine_de_blocs->suivant = NULL;
-    } else {
-        chaine_de_blocs->idBloc = 1 + bc->idBloc;
-        chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, dateJ);
-        chaine_de_blocs->suivant = bc;
-    }
+            chaine_de_blocs = creerBloc(0, dateJ);
+            chaine_de_blocs->suivant = NULL;
+        } else {
+            chaine_de_blocs->idBloc = 1 + bc->idBloc;
+            chaine_de_blocs = creerBloc(chaine_de_blocs->idBloc, dateJ);
+            chaine_de_blocs->suivant = bc;
+        }
     //on a besoin de la date
     //pour déclanger un ajout de bloc, il faut vérifier que c'est une date diff du bloc precedent
 
@@ -119,17 +120,7 @@ void crediter(int idEtu, float montant, char*descr, BlockChain bc){
     //ici pas besoin de créer un bloc car on ajoute la transaction dans le premier bloc et pas dans un nouveau
     if (bc!=NULL){
         T_Transaction *listeTransaction = NULL;
-        T_Transaction *premiere_transaction = listeTransaction;
         listeTransaction = ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);//ici on utilise le premier bloc de la liste pour ajouter la transaction car on concidère que c'est celle du jour
-        premiere_transaction = listeTransaction;
-        while(listeTransaction!=NULL){
-            printf("\nid de nouv = %d\n",listeTransaction->idEtu);
-            printf("montant de nouv = %f\n",listeTransaction->montant);
-            printf("descrip de nouv = %s\n",listeTransaction->description);
-            listeTransaction = listeTransaction->suivant;
-        }
-
-        listeTransaction = premiere_transaction;
         bc->listeTransactions=listeTransaction;
 
     }
@@ -140,9 +131,11 @@ void crediter(int idEtu, float montant, char*descr, BlockChain bc){
  * 6.	Paiement d'un repas :
  ******************************** */
 int payer(int idEtu, float montant, char *descr, BlockChain bc){
-    if (soldeEtudiant(idEtu, bc)>montant){
-        ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);
-        return 1;
+    montant=fabs(montant);
+
+    if (soldeEtudiant(idEtu, bc)>montant){//double vérification du solde
+        montant=montant*(-1.);
+        bc->listeTransactions = ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);
     }
     return 0;
 }
@@ -182,9 +175,8 @@ void consulter(int idEtu, BlockChain bc){
  ******************************** */
 int transfert(int idSource, int idDestination, float montant, char *descr, BlockChain bc){
     if (soldeEtudiant(idSource, bc)>montant){
-        payer(idSource, montant, *descr, bc);
-        crediter(idDestination, montant, *descr, bc);
-        return 1;
+        payer(idSource, montant, descr, bc);
+        crediter(idDestination, montant, descr, bc);
     }
     return 0;
 }

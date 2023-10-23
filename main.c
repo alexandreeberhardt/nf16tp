@@ -265,7 +265,7 @@ int main(){
                         while(nbj!=0){
                             nbdateJ++;
                             sprintf(nJ, "%d", nbdateJ);//permet de saisir dans le tableau l'entier
-                            dateJ=&nJ;//permet de saisir en char*
+                            dateJ=nJ;//permet de saisir en char*
                             ma_chaine_de_blocs=ajouterBlock(ma_chaine_de_blocs);
                             nbj--;
                         }

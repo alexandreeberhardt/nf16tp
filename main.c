@@ -8,20 +8,11 @@ int main(){
     BlockChain ma_chaine_de_blocs = NULL;
     BlockChain premier_bloc = NULL;
     BlockChain listeB = NULL;
-    /*char chaine[10];
-    printf("chaine ?\n");
-    fgets(chaine, 10, stdin);
-    printf("chaine = %s", chaine);*/
-
+    
     //test de creerTransaction
     int id = 15;
     float montant = 12.675;
     char*descr= "Midi";
-    /*T_Transaction *nouvelleT = NULL;
-    nouvelleT = creerTransaction(id, montant, descr);
-    printf("id de nouvelle T = %d\n",nouvelleT->idEtu);
-    printf("montant de nouvelle T = %f\n",nouvelleT->montant);
-    printf("descrip de nouvelle T = %s\n",nouvelleT->description);*/
 
     //test d'ajouterTransaction (ici 2)
     T_Transaction *listeTransaction = NULL;
@@ -57,23 +48,6 @@ int main(){
     }
 
     //test ajouterBloc
-    /*BlockChain listeB=NULL;
-    listeB = ajouterBlock(listeB);
-    listeB->listeTransactions = listeTransaction;
-
-    /*ide = 2;
-    date = "20231014";
-    nouveauB = creerBloc(ide, date);
-    listeB = ajouterBlock(listeB);
-    ide = 3;
-    date = "20231015";
-    nouveauB = creerBloc(ide, date);
-    listeB = ajouterBlock(listeB);*/
-    /*while(listeB!=NULL){
-        printf("\nid de liste 1= %d\n",listeB->idBloc);
-        printf("descrip de liste 1= %s\n",listeB->dateBloc);
-        listeB = listeB->suivant;
-    }*/
 
     id = 1;
     montant = 1;
@@ -84,13 +58,7 @@ int main(){
     montant = 2;
     descr= "Matin";
     listeT2 = ajouterTransaction(id,montant,descr,listeT2); // ajoute une seconde transaction
-    /*while(listeT2!=NULL){
-        printf("\nid de liste T2 = %d\n",listeT2->idEtu);
-        printf("montant de liste T2 = %f\n",listeT2->montant);
-        printf("descrip de liste T2 = %s\n",listeT2->description);
-        listeT2 = listeT2->suivant;
-    }*/
-
+   
     //BlockChain listeB=NULL;
 
     ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
@@ -116,12 +84,6 @@ int main(){
     descr= "Matin";
     listeT3 = ajouterTransaction(id,montant,descr,listeT3);
     ma_chaine_de_blocs->listeTransactions = listeT3;
-    /*while(ma_chaine_de_blocs!=NULL){
-        printf("\nid de nouv Liste bloc = %d\n",ma_chaine_de_blocs->idBloc);
-        printf("descrip de nouv liste bloc = %s\n",ma_chaine_de_blocs->dateBloc);
-        ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;
-    }*/
-
 
     // ============= MENU UTILISATEUR ============= */
     printf("\nDate du jour :%s\n",dateJ);
@@ -145,7 +107,7 @@ int main(){
         switch (choix) {
             case '1' :
                 {
-                    if(ma_chaine_de_blocs==NULL){
+                    if(ma_chaine_de_blocs==NULL){ //vérifier que la chaine n'est pas vide
                         printf("Il n'y a pas de blocs dans la chaine de blocs.\n");
                     } else {
                         premier_bloc = ma_chaine_de_blocs;
@@ -155,6 +117,7 @@ int main(){
                         printf("descrip du bloc = %s\n",ma_chaine_de_blocs->dateBloc);
                         ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;
                     }
+                    //remet le pointeur au premier élément de la liste
                     ma_chaine_de_blocs = premier_bloc;
                 }
                 break;
@@ -165,19 +128,18 @@ int main(){
                     premier_bloc = ma_chaine_de_blocs;
                     printf("entrez le numero du bloc a afficher : ");
                     scanf("%d",&idbloc);
-                    //printf("idbloc = %d",idbloc);
                     while (idbloc>=ma_chaine_de_blocs->idBloc+1){
                         printf("\nL'identifiant de bloc indique n'existe pas. Veuillez en saisir un autre :\n");
                         scanf("%d",&idbloc);
                     }
                     do{
+                        //On va pouvoir afficher les transactions du bloc existant
                         if (ma_chaine_de_blocs->idBloc==idbloc){
                             T_Transaction *t;
                             t=ma_chaine_de_blocs->listeTransactions;
                             if (t!=NULL){
                                 int i=1;
                                 while (t!=NULL){
-                                    //printf("transaction n°%d : le %s, %s, %lf€ \n",i,ma_chaine_de_blocs->dateBloc,t->description,t->montant);
                                     printf("\nidentifiant de la transaction n %d= %d\n",i,t->idEtu);
                                     printf("montant de la transaction n %d = %f\n",i, t->montant);
                                     printf("descrip de la transaction n %d = %s\n",i, t->description);
@@ -188,9 +150,9 @@ int main(){
                                 printf("Il n'y a pas de transaction.\n");
                             }
                         }
-                        ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;
-                    }while (ma_chaine_de_blocs!=NULL);//|| ma_chaine_de_blocs->idBloc!=idbloc
-                    ma_chaine_de_blocs = premier_bloc;
+                        ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;//permet de parcourir la liste si jamais il y a eu des mauvaises allocations des identifiants de bloc
+                    }while (ma_chaine_de_blocs!=NULL);//si pas de mauvaise allocation d'identifiant, alors le do while est inutile
+                    ma_chaine_de_blocs = premier_bloc;//remet le pointeur au début
                 }
                 break;
 
@@ -199,9 +161,9 @@ int main(){
                 {
                     int idetu;
                     premier_bloc = ma_chaine_de_blocs;
-                    printf("entrez l'id de l'etudiant a afficher : ");
+                    printf("entrez l'id de l'etudiant a afficher : \n");
                     scanf("%d",&idetu);
-                    printf("idetu = %d",idetu);
+                    printf("Votre demande concerne idetu = %d\n",idetu);
                     if(ma_chaine_de_blocs!=NULL){
                         T_Transaction *t;
                         t=ma_chaine_de_blocs->listeTransactions;
@@ -211,9 +173,9 @@ int main(){
                             while (t!=NULL){
                                     if (idetu==t->idEtu){
                                         nb_T++;
-                                        printf("\nidentifiant de l'etudiant n %d= %d\n",i,t->idEtu);//changer le numero de la transaction pour quelle soit comptée en fonction du nb de transactiond e l'étudiant
-                                        printf("montant de la transaction n %d = %f\n",i, t->montant);
-                                        printf("descrip de la transaction n %d = %s\n",i, t->description);
+                                        printf("\nidentifiant de l'etudiant n %d= %d\n",nb_T,t->idEtu);
+                                        printf("montant de la transaction n %d = %f\n",nb_T, t->montant);
+                                        printf("descrip de la transaction n %d = %s\n",nb_T, t->description);
                                     }
                                     t = t->suivant;
                                     i++;
@@ -231,7 +193,7 @@ int main(){
             case '4' :
                 {
                     int idetu;
-                    printf("entrez l'id de l'etudiant dont on souhaite afficher les 5 dernieres transactions : ");
+                    printf("entrez l'id de l'etudiant dont on souhaite afficher les 5 dernieres transactions : \n");
                     scanf("%d",&idetu);
                     consulter(idetu, ma_chaine_de_blocs);
                 }
@@ -241,30 +203,29 @@ int main(){
                 {
                     int idetu;
                     float montant;
-                    //char chaine[100];
                     char * desc;
 
-                    printf("entrez l'id de l'etudiant a crediter : ");
+                    printf("Entrez l'id de l'etudiant a crediter : \n");
                     scanf("%d",&idetu);
-                    printf("idetu=%d",idetu);
+                    printf("Vous avez choisi : idetu=%d\n",idetu);
 
                     viderBuffer();
                     printf("\n");
-                    printf("entrez le montant a crediter : ");
+                    printf("Entrez le montant a crediter : ");
                     scanf("%f",&montant);
-                    printf("montant=%f",montant);
+                    printf("Vous demandez de crediter un montant=%f",montant);
                     printf("\n");
 
                     viderBuffer();
                     desc = (char *)malloc(100* sizeof(char));
                     if (desc != NULL){
-                        printf("entrez la description en moins de 100 caracteres :");
+                        printf("Entrez la description en moins de 100 caracteres :\n");
                         fgets(desc, 100, stdin);
                         size_t length = strcspn(desc, "\n");
                         if (length < strlen(desc)) {
                             desc[length] = '\0';
                         }
-                        printf("description = %s\n", desc);
+                        printf("Vous avez saisi la description suivante = %s\n", desc);
                         printf("\nVotre saisie est : idetu = %d, montant = %f, descrip = %s \n", idetu, montant, desc);
                         crediter(idetu, montant, desc, ma_chaine_de_blocs);
                     }else{
@@ -389,7 +350,7 @@ int main(){
                 }
                 break;
 
-            case '9' ://vider la mémoire : on aurait pu faire une fonction mais ici pas d'interet particulier
+            case '9' : //vider la mémoire : on aurait pu faire une fonction mais ici pas d'interet particulier
                 {
                     BlockChain bc_de_base = ma_chaine_de_blocs;
                     BlockChain bcbis = NULL;

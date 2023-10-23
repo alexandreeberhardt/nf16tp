@@ -8,82 +8,8 @@ int main(){
     BlockChain ma_chaine_de_blocs = NULL;
     BlockChain premier_bloc = NULL;
     BlockChain listeB = NULL;
-    
-    //test de creerTransaction
-    int id = 15;
-    float montant = 12.675;
-    char*descr= "Midi";
 
-    //test d'ajouterTransaction (ici 2)
-    T_Transaction *listeTransaction = NULL;
-    T_Transaction *premiere_transaction = listeTransaction;
-    listeTransaction = ajouterTransaction(id,montant,descr,listeTransaction);
-    id = 20;
-    montant = 40;
-    descr= "Soir";
-    listeTransaction = ajouterTransaction(id,montant,descr,listeTransaction);// ajoute une seconde transaction
-    premiere_transaction = listeTransaction;
-    while(listeTransaction!=NULL){
-        printf("\nid de nouv = %d\n",listeTransaction->idEtu);
-        printf("montant de nouv = %f\n",listeTransaction->montant);
-        printf("descrip de nouv = %s\n",listeTransaction->description);
-        listeTransaction = listeTransaction->suivant;
-    }
-    listeTransaction = premiere_transaction;
-    id = 20;
-    montant = 30;
-    descr= "Soir";
-    listeTransaction = ajouterTransaction(id,montant,descr,listeTransaction);
-    premiere_transaction = listeTransaction;
-
-    //test creerbloc
-    int ide = 1;
-    char*date = "20231014";
-    T_Block * nouveauB = NULL;
-    nouveauB = creerBloc(ide, date);
-    while(nouveauB!=NULL){
-        printf("\nid de nouv B = %d\n",nouveauB->idBloc);
-        printf("descrip de nouv B = %s\n",nouveauB->dateBloc);
-        nouveauB = nouveauB->suivant;
-    }
-
-    //test ajouterBloc
-
-    id = 1;
-    montant = 1;
-    descr= "Matin";
-    T_Transaction *listeT2 = NULL;
-    listeT2 = ajouterTransaction(id,montant,descr,listeT2);
-    id = 2;
-    montant = 2;
-    descr= "Matin";
-    listeT2 = ajouterTransaction(id,montant,descr,listeT2); // ajoute une seconde transaction
-   
-    //BlockChain listeB=NULL;
-
-    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
-
-    while(ma_chaine_de_blocs!=NULL){
-        printf("\nid de nouv Liste bloc = %d\n",ma_chaine_de_blocs->idBloc);
-        printf("descrip de nouv liste bloc = %s\n",ma_chaine_de_blocs->dateBloc);
-        ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;
-    }
-    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
-    ma_chaine_de_blocs->listeTransactions = listeTransaction;
-    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
-
-    ma_chaine_de_blocs->listeTransactions = listeT2;
-    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
-    id = 1;
-    montant = 1;
-    descr= "Matin";
-    T_Transaction *listeT3 = NULL;
-    listeT3 = ajouterTransaction(id,montant,descr,listeT3);
-    id = 2;
-    montant = 2;
-    descr= "Matin";
-    listeT3 = ajouterTransaction(id,montant,descr,listeT3);
-    ma_chaine_de_blocs->listeTransactions = listeT3;
+    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);//permet de créer le premier bloc du jour et ici de la liste
 
     // ============= MENU UTILISATEUR ============= */
     printf("\nDate du jour :%s\n",dateJ);
@@ -181,7 +107,7 @@ int main(){
                                     i++;
                             }
                             if (nb_T==0){
-                                printf("Il n'y a pas de transaction pour l'etudiant a l'identifiant n %d.\n",idetu);
+                                printf("Il n'y a pas de transaction aujourd'hui pour l'etudiant a l'identifiant n %d.\n",idetu);
                             }
                         }else{
                             printf("Il n'y a pas de transaction.\n");
@@ -352,26 +278,7 @@ int main(){
 
             case '9' : //vider la mémoire : on aurait pu faire une fonction mais ici pas d'interet particulier
                 {
-                    BlockChain bc_de_base = ma_chaine_de_blocs;
-                    BlockChain bcbis = NULL;
-                    T_Transaction *listeT1 = bc_de_base->listeTransactions;
-                    T_Transaction *listeT2 = NULL;
-                    while (bc_de_base != NULL){
-                        //Libérer toutes les listes
-                        listeT1 = bc_de_base->listeTransactions;
-                        listeT2 = NULL;
-                        while (listeT1 != NULL){
-                            listeT2 = listeT1;
-                            listeT1 = listeT1->suivant;
-                            printf("Les transactions sont supprimees.\n");
-                            free(listeT2);
-                        }
-                        //Libérer le bloc
-                        bcbis = bc_de_base;
-                        bc_de_base = bc_de_base->suivant;
-                        free(bcbis);
-                        printf("Le bloc est supprime.\n");
-                    }
+                    libererEspace(ma_chaine_de_blocs);
                     printf("Tous les blocs sont supprimes.\n");
                     printf("\n======== PROGRAMME TERMINE ========\n");
                 }

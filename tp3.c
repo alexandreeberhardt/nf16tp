@@ -117,7 +117,6 @@ void crediter(int idEtu, float montant, char*descr, BlockChain bc){
         bc->listeTransactions=listeTransaction;
 
     }
-    return 0;
 }
 
 /* ********************************
@@ -128,6 +127,7 @@ int payer(int idEtu, float montant, char *descr, BlockChain bc){
     if (soldeEtudiant(idEtu, bc)>montant){//double vérification du solde mais permet d'utiliser la fonction autrement que dans le choix 6 si on le souhaitait
         montant=montant*(-1.);//permet de rentrer le bon signe pour le montant et ainsi calculer le bon solde
         bc->listeTransactions = ajouterTransaction(idEtu,montant,descr,bc->listeTransactions);
+        return 1;
     }
     return 0;
 }
@@ -158,7 +158,6 @@ void consulter(int idEtu, BlockChain bc){
             printf("Il n'y a pas d'autres transactions pour cet etudiant.");
         }
     }
-    return 0;
 }
 
 
@@ -169,6 +168,7 @@ int transfert(int idSource, int idDestination, float montant, char *descr, Block
     if (soldeEtudiant(idSource, bc)>montant){
         payer(idSource, montant, descr, bc);
         crediter(idDestination, montant, descr, bc);
+        return 1;
     }
     return 0;
 }

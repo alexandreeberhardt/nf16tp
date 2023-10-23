@@ -119,8 +119,11 @@ int main(){
             case '4' :
                 {
                     int idetu;
+                    float solde=0;
                     printf("entrez l'id de l'etudiant dont on souhaite afficher les 5 dernieres transactions : \n");
                     scanf("%d",&idetu);
+                    solde = soldeEtudiant(idetu, ma_chaine_de_blocs);
+                    printf("Le solde de l'etudiant est de : %.2f\n\n",solde);
                     consulter(idetu, ma_chaine_de_blocs);
                 }
                 break;

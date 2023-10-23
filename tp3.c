@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "tp3.h"
-//Nous définissions la date ici, le programme de base aurait été cherché la date de l'ordinateur 
+//Nous définissions la date ici, le programme de base aurait été cherché la date de l'ordinateur
 char *dateJ="20231024";
 
 
@@ -184,4 +184,27 @@ void viderBuffer() {
     while (c != '\n' && c != EOF) {
         c = getchar();
     }
+}
+
+//libérer l'espace mémoire
+void libererEspace(BlockChain bc_de_base){
+    BlockChain bcbis = NULL;
+    T_Transaction *listeT1 = bc_de_base->listeTransactions;
+    T_Transaction *listeT2 = NULL;
+        while (bc_de_base != NULL){
+            //Libérer toutes les listes
+            listeT1 = bc_de_base->listeTransactions;
+            listeT2 = NULL;
+            while (listeT1 != NULL){
+                listeT2 = listeT1;
+                listeT1 = listeT1->suivant;
+                printf("Les transactions sont supprimees.\n"); //on peut faire apparaitre ce print pour vérifier
+                free(listeT2);
+            }
+            //Libérer le bloc
+            bcbis = bc_de_base;
+            bc_de_base = bc_de_base->suivant;
+            free(bcbis);
+            printf("Le bloc est supprime.\n"); //on peut faire apparaitre ce print pour vérifier
+        }
 }

@@ -9,7 +9,7 @@ int main(){
     BlockChain premier_bloc = NULL;
     BlockChain listeB = NULL;
 
-    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);//permet de créer le premier bloc du jour et ici de la liste
+
 
     // ============= MENU UTILISATEUR ============= */
     printf("\nDate du jour :%s\n",dateJ);
@@ -50,41 +50,49 @@ int main(){
 
             case '2' :
                 {
-                    int idbloc;
-                    premier_bloc = ma_chaine_de_blocs;
-                    printf("entrez le numero du bloc a afficher : ");
-                    scanf("%d",&idbloc);
-                    while (idbloc>=ma_chaine_de_blocs->idBloc+1){
-                        printf("\nL'identifiant de bloc indique n'existe pas. Veuillez en saisir un autre :\n");
-                        scanf("%d",&idbloc);
-                    }
-                    do{
-                        //On va pouvoir afficher les transactions du bloc existant
-                        if (ma_chaine_de_blocs->idBloc==idbloc){
-                            T_Transaction *t;
-                            t=ma_chaine_de_blocs->listeTransactions;
-                            if (t!=NULL){
-                                int i=1;
-                                while (t!=NULL){
-                                    printf("\nidentifiant de la transaction n %d= %d\n",i,t->idEtu);
-                                    printf("montant de la transaction n %d = %f\n",i, t->montant);
-                                    printf("descrip de la transaction n %d = %s\n",i, t->description);
-                                    t = t->suivant;
-                                    i++;
-                                }
-                            }else{
-                                printf("Il n'y a pas de transaction.\n");
-                            }
-                        }
-                        ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;//permet de parcourir la liste si jamais il y a eu des mauvaises allocations des identifiants de bloc
-                    }while (ma_chaine_de_blocs!=NULL);//si pas de mauvaise allocation d'identifiant, alors le do while est inutile
-                    ma_chaine_de_blocs = premier_bloc;//remet le pointeur au début
+                	if(ma_chaine_de_blocs==NULL){ //vérifier que la chaine n'est pas vide
+                        printf("Il n'y a pas de blocs dans la chaine de blocs, il n'y a donc aucun bloc a afficher.\n");
+                    } else {
+                        
+		                int idbloc;
+		                premier_bloc = ma_chaine_de_blocs;
+		                printf("entrez le numero du bloc a afficher : ");
+		                scanf("%d",&idbloc);
+		                while (idbloc>=ma_chaine_de_blocs->idBloc+1){
+		                    printf("\nL'identifiant de bloc indique n'existe pas. Veuillez en saisir un autre :\n");
+		                    scanf("%d",&idbloc);
+		                }
+		                do{
+		                    //On va pouvoir afficher les transactions du bloc existant
+		                    if (ma_chaine_de_blocs->idBloc==idbloc){
+		                        T_Transaction *t;
+		                        t=ma_chaine_de_blocs->listeTransactions;
+		                        if (t!=NULL){
+		                            int i=1;
+		                            while (t!=NULL){
+		                                printf("\nidentifiant de la transaction n %d= %d\n",i,t->idEtu);
+		                                printf("montant de la transaction n %d = %f\n",i, t->montant);
+		                                printf("descrip de la transaction n %d = %s\n",i, t->description);
+		                                t = t->suivant;
+		                                i++;
+		                            }
+		                        }else{
+		                            printf("Il n'y a pas de transaction.\n");
+		                        }
+		                    }
+		                    ma_chaine_de_blocs = ma_chaine_de_blocs->suivant;//permet de parcourir la liste si jamais il y a eu des mauvaises allocations des identifiants de bloc
+		                }while (ma_chaine_de_blocs!=NULL);//si pas de mauvaise allocation d'identifiant, alors le do while est inutile
+		                ma_chaine_de_blocs = premier_bloc;//remet le pointeur au début
+		            }
                 }
                 break;
 
 
             case '3' : //on considère que le bloc en premier dans la liste est le bloc du jour
-                {
+                {	
+                	if(ma_chaine_de_blocs==NULL){ //vérifier que la chaine n'est pas vide
+                        printf("Il n'y a pas de blocs dans la chaine de blocs, il n'y a donc aucune transaction a afficher.\n");
+                    } else {
                     int idetu;
                     premier_bloc = ma_chaine_de_blocs;
                     printf("entrez l'id de l'etudiant a afficher : \n");
@@ -114,22 +122,30 @@ int main(){
                         }
                     }
                 }
+                }
                 break;
 
             case '4' :
                 {
-                    int idetu;
-                    float solde=0;
-                    printf("entrez l'id de l'etudiant dont on souhaite afficher les 5 dernieres transactions : \n");
-                    scanf("%d",&idetu);
-                    solde = soldeEtudiant(idetu, ma_chaine_de_blocs);
-                    printf("Le solde de l'etudiant est de : %.2f\n\n",solde);
-                    consulter(idetu, ma_chaine_de_blocs);
+                	if(ma_chaine_de_blocs==NULL){ //vérifier que la chaine n'est pas vide
+                        printf("Il n'y a pas de blocs dans la chaine de blocs, l'historique est donc vide pour tous les etudiants.\n");
+                    } else {
+		                int idetu;
+		                float solde=0;
+		                printf("entrez l'id de l'etudiant dont on souhaite afficher les 5 dernieres transactions : \n");
+		                scanf("%d",&idetu);
+		                solde = soldeEtudiant(idetu, ma_chaine_de_blocs);
+		                printf("Le solde de l'etudiant est de : %.2f\n\n",solde);
+		                consulter(idetu, ma_chaine_de_blocs);
+		            }
                 }
                 break;
 
             case '5' :
                 {
+                	if (ma_chaine_de_blocs==NULL){
+                	    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
+                	    }//permet de créer le premier bloc du jour et ici de la liste
                     int idetu;
                     float montant;
                     char * desc;
@@ -170,6 +186,9 @@ int main(){
             case '6' ://payer un repas, donc il faut débiter un compte
                 {
                     //1 : verifier que solde suffisant
+                    if (ma_chaine_de_blocs==NULL){
+                	    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
+                	    }//permet de créer le premier bloc du jour et ici de la liste
                     float montant_repas=0;
                     int idE;
                     float solde=0;
@@ -207,7 +226,10 @@ int main(){
                 break;
 
             case '7' :
-                {
+                {	
+                	if (ma_chaine_de_blocs==NULL){
+                	    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
+                	    }//permet de créer le premier bloc du jour et ici de la liste
                     int idSource, idDestination;
                     float montant_transf, solde;
                     solde=0;
@@ -246,7 +268,10 @@ int main(){
                 break;
 
             case '8' :
-                {
+                {	
+                	if (ma_chaine_de_blocs==NULL){
+                	    ma_chaine_de_blocs = ajouterBlock(ma_chaine_de_blocs);
+                	    }//permet de créer le premier bloc du jour et ici de la liste
                     int nbdateActu=0;
                     int nbdateJ=0;
                     int nbj=0;

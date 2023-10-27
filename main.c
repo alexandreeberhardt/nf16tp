@@ -306,9 +306,16 @@ int main(){
 
             case '9' : //vider la mémoire : on aurait pu faire une fonction mais ici pas d'interet particulier
                 {
-                    libererEspace(ma_chaine_de_blocs);
-                    printf("Tous les blocs sont supprimes.\n");
-                    printf("\n======== PROGRAMME TERMINE ========\n");
+                	if (ma_chaine_de_blocs!=NULL){
+		                libererEspace(ma_chaine_de_blocs);
+		                printf("Tous les blocs sont supprimes.\n");
+		                printf("\n======== PROGRAMME TERMINE ========\n");
+		            }
+		            else {
+		            printf("Il n'y a aucun bloc a supprimer.\n");
+		                printf("\n======== PROGRAMME TERMINE ========\n");
+		            }
+		            
                 }
                 break;
 

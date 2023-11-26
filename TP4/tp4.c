@@ -88,6 +88,7 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
 
 }
 
+
 T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
 {
     int cmp, cmp2;
@@ -123,58 +124,54 @@ T_Arbre creerNoeud(char *nom, char *prenom, char *code)
 }// creer cette fct  utiliser dans T_Arbre inscrire
 
 
-/////////////////////////////////////////
 T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
+	int cmp, cmp2;
 	T_Arbre etudiant = malloc(sizeof(T_Arbre));
+	T_Arbre pere = malloc(sizeof(T_Arbre));
 	T_Arbre nouveauE = malloc(sizeof(T_Arbre));
 	T_Element* nouveauI = malloc(sizeof(T_Element));
-	if (nouveauE==NULL || etudiant==NULL || nouveauI==NULL) return NULL;
+	if (nouveauE==NULL || etudiant==NULL || nouveauI==NULL || pere==NULL) return NULL;
 	etudiant =rechercherNoeud(abr, nom, prenom);
 	if (etudiant!=NULL)//l'etudiant existe, on lui ajoute l'inscription
     {
         nouveauI = ajouterInscription(etudiant->listeInscriptions, code);
+        etudiant->listeInscriptions = nouveauI;
     }else{//il faut creer l'etudiant
-
+        while(etudiant!=NULL)
+        {
+            pere = etudiant;
+            cmp = strcmp(etudiant->nom, nom);
+            cmp2 = strcmp(etudiant->prenom, prenom);
+            if((cmp > 0) || (cmp == 0 && cmp2>0))
+            {
+                etudiant = etudiant->filsDroit;
+            }else if((cmp < 0) || (cmp == 0 && cmp2<0))
+            {
+                etudiant = etudiant->filsGauche;
+            }
+        }
+        if (pere==NULL)//arbre vide
+        {
+            nouveauE = creerNoeud(nom, prenom, code);
+            nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
+            nouveauE->listeInscriptions = nouveauI;
+            abr = nouveauE;
+        }else if((cmp > 0) || (cmp == 0 && cmp2>0))
+            {
+                nouveauE = creerNoeud(nom, prenom, code);
+                nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
+                nouveauE->listeInscriptions = nouveauI;
+                etudiant->filsDroit= nouveauE;
+            }else if((cmp < 0) || (cmp == 0 && cmp2<0))
+            {
+                nouveauE = creerNoeud(nom, prenom, code);
+                nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
+                nouveauE->listeInscriptions = nouveauI;
+                etudiant->filsGauche = nouveauE;
+            }
     }
-
-    nouveauE = creerNoeud(nom, prenom, code);
-	if (abr->nom==NULL&&abr->prenom==NULL){
-		abr->nom=nom;
-		abr->prenom=prenom;
-		abr->listeInscriptions = ajouterInscription(abr->listeInscriptions, code);
-	}
-	else if (abr->nom==nom&&abr->prenom==prenom){
-		abr->listeInscriptions = ajouterInscription( abr->listeInscriptions, code);
-	}
-		else if (strcmp(strcat(strcat(abr->nom," "),abr->prenom),strcat(strcat(nom," "),prenom))>0){// le noeud est plus grand
-			if (abr->filsGauche==NULL){
-				T_Arbre nouveau = malloc(sizeof(T_Arbre));
-				nouveau->nom = nom;
-				nouveau->prenom = prenom;
-				nouveau->listeInscriptions = ajouterInscription(nouveau->listeInscriptions, code);
-				nouveau->filsGauche=NULL;
-				nouveau->filsDroit=NULL;
-			}
-			else {
-				inscrire(abr->filsGauche, nom, prenom, code);
-			}
-		}
-				else {
-				if (abr->filsDroit==NULL){
-					T_Arbre nouveau = malloc(sizeof(T_Arbre));
-					nouveau->nom = nom;
-					nouveau->prenom = prenom;
-					nouveau->listeInscriptions = ajouterInscription(nouveau->listeInscriptions, code);
-					nouveau->filsGauche=NULL;
-					nouveau->filsDroit=NULL;
-				}
-				else {
-					inscrire(abr->filsDroit, nom, prenom, code);
-				}
-			}
     return abr;
 }
-/////////////////////////////////////////
 
 
 void afficherInscriptions(T_Arbre abr){

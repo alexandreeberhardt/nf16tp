@@ -43,6 +43,10 @@ int main()
                 break;
 
             case '2' :
+                    printf("Entrez le nom du fichier : ");
+                    scanf("%99s", nomFichier);
+                    viderBuffer();
+                    lireFichier(abr, nomFichier);
 
                 break;
 

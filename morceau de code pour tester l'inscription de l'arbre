@@ -1,0 +1,31 @@
+nom = "AUPIN";
+                prenom = "LOLA";
+                code= "NF16";
+                //noeud = creerNoeud(nom, prenom,code);
+                //printf("test 1 %s %s %s", noeud->nom, noeud->prenom, noeud->listeInscriptions->code_uv);
+                //noeud1 = rechercherNoeud(noeud, nom, prenom);
+                //printf("%s %s %s", noeud1->nom, noeud1->prenom, noeud1->listeInscriptions->code_uv);
+                noeud2 = NULL;
+                noeud1 = inscrire(noeud2, nom, prenom,code);
+                printf("\ntest 2 %s %s %s\n", noeud1->nom, noeud1->prenom, noeud1->listeInscriptions->code_uv);
+
+                nom = "LR";
+                prenom = "LINN";
+                code= "AD04";
+                noeud = inscrire(noeud1, nom, prenom,code);
+                printf("\ntest 3 %s %s %s\n", noeud->nom, noeud->prenom, noeud->listeInscriptions->code_uv);
+                noeud3 = noeud->filsGauche;
+                printf("\ntest 4 %s %s %s\n", noeud3->nom, noeud3->prenom, noeud3->listeInscriptions->code_uv);
+                noeud3 = noeud3->filsGauche;
+
+                nom = "XAMOR";
+                prenom = "XALO";
+                code= "AD04";
+                noeud3 = inscrire(noeud1, nom, prenom,code);
+                printf("\ntest 4 %s %s %s\n", noeud3->nom, noeud3->prenom, noeud3->listeInscriptions->code_uv);
+                noeud3 = noeud3->filsGauche;
+
+                printf("\ntest 5 %s %s %s\n", noeud3->nom, noeud3->prenom, noeud3->listeInscriptions->code_uv);
+                noeud3 = noeud3->filsGauche;
+
+                printf("\ntest 6 %s %s %s\n", noeud3->nom, noeud3->prenom, noeud3->listeInscriptions->code_uv);

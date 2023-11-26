@@ -174,31 +174,31 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
 }
 
 
-void afficherInscriptions(T_Arbre abr){
-	if (abr->nom!=NULL&&abr->prenom!=NULL){
-		if (abr->filsGauche){
-			afficherInscriptions(abr->filsGauche);
-		}
-		else {
-			printf(", ");
-			}
-		printf("%s %s :",abr->nom,abr->prenom);
-		printf("%s ",abr->listeInscriptions->code_uv);
-		T_Element* ptr = abr->listeInscriptions;
-		while (ptr->suivant!=NULL){
-			printf("%s ",ptr->code_uv);
-			ptr=ptr->suivant;
-		}
-		printf("\n");
-		if (abr->filsDroit){
-			printf(", ");
-			afficherInscriptions(abr->filsDroit);
-		}
+void afficherInscriptions(T_Arbre abr) {
+    if (abr == NULL) {
+ // si null on ne revoie rien
+        return;
+    }
 
-	}
+// appel recursif sur l'arbre gauche
+    afficherInscriptions(abr->filsGauche);
 
+//affichage normal
+    printf(" %s %s: ", abr->nom, abr->prenom);
+    T_Element *currentElement = abr->listeInscriptions;
+    if (currentElement == NULL) {
+        printf("pas d'inscription.\n"); // ce n'est pas supposé arriver
+    } else {
+        while (currentElement != NULL) {
+            printf("%s ", currentElement->code_uv);
+            currentElement = currentElement->suivant;
+        }
+        printf("\n");
+    }
+
+// appel  récursif sur l'arbre droit
+    afficherInscriptions(abr->filsDroit);
 }
-
 
 /*Car_Fichier(char* filename){ // affiche le caractre lu du fichier
     char chaine_fichier;

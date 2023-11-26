@@ -200,6 +200,29 @@ void afficherInscriptions(T_Arbre abr) {
     afficherInscriptions(abr->filsDroit);
 }
 
+void lireFichier(T_Arbre abr, char *nomFichier) {
+    FILE *fichier = fopen(nomFichier, "r");
+    char ligne[100];
+    char *nom, *prenom, *code_uv;
+
+    if (fichier == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        exit(1);
+    }
+
+    while (fgets(ligne, sizeof(ligne), fichier)) {
+        nom = strtok(ligne, ";");
+        prenom = strtok(NULL, ";");
+        code_uv = strtok(NULL, "\n");
+
+        if (nom && prenom && code_uv) {
+            abr = inscrire(abr, nom, prenom, code_uv);
+        }
+    }
+
+    fclose(fichier);
+}
+
 /*Car_Fichier(char* filename){ // affiche le caractre lu du fichier
     char chaine_fichier;
     if (filename==";"||filename==" "||filename=="\n"){

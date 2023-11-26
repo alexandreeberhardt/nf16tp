@@ -92,7 +92,7 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
 T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
 {
     int cmp, cmp2;
-    T_Noeud*N=malloc(sizeof(T_Noeud));
+    T_Arbre N=malloc(sizeof(T_Arbre));
     if(N==NULL)return 0;
 
     N=abr;

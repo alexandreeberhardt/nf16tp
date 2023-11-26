@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tp4.h"
 
-T_Element * creerInscription(char* code)//Initialise une inscription à une UV
+T_Element * creerInscription(char* code)//Initialise une inscription  une UV
 {
     T_Element*nouvIns=malloc(sizeof(T_Element));
     if (nouvIns==NULL)return 0;
@@ -120,7 +120,7 @@ T_Arbre creerNoeud(char *nom, char *prenom, char *code)
     nouvN->filsGauche=NULL;
     nouvN->filsDroit=NULL;
     return nouvN;
-}// creer cette fct à utiliser dans T_Arbre inscrire
+}// creer cette fct  utiliser dans T_Arbre inscrire
 
 
 /////////////////////////////////////////
@@ -132,7 +132,7 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
 	etudiant =rechercherNoeud(abr, nom, prenom);
 	if (etudiant!=NULL)//l'etudiant existe, on lui ajoute l'inscription
     {
-        nouveauI = ajouterInscription(etudiant->listeInscription, code);
+        nouveauI = ajouterInscription(etudiant->listeInscriptions, code);
     }else{//il faut creer l'etudiant
 
     }
@@ -203,7 +203,7 @@ void afficherInscriptions(T_Arbre abr){
 }
 
 
-/*Car_Fichier(char* filename){ // affiche le caractère lu du fichier
+/*Car_Fichier(char* filename){ // affiche le caractre lu du fichier
     char chaine_fichier;
     if (filename==";"||filename==" "||filename=="\n"){
         return 0;
@@ -233,12 +233,12 @@ void strupr_(char* s){//permet de mettre en maj
             NOM=+filemane;
         }
     }
-    //se sépare par les "; " et les "\n"
+    //se spare par les "; " et les "\n"
     //1ere chose : lire la premiere ligne
     if (*filename!="\n"){
 
-        //ici faire appel à une fonction qui extrait les nom prenom et de la ligne !
-        //puis suivre du fait d'inscrire l'étudiant
+        //ici faire appel  une fonction qui extrait les nom prenom et de la ligne !
+        //puis suivre du fait d'inscrire l'tudiant
 
         if (*filemane != ";"){
             if (*filename != " "){
@@ -247,9 +247,9 @@ void strupr_(char* s){//permet de mettre en maj
 
         }
     }//fin du fichier  = \0
-    //Parcourir le fichier texte jusqu'à la ligne suivante
+    //Parcourir le fichier texte jusqu' la ligne suivante
 
-    //Faire appel à l'inscription d'un étudiant à une UV : conf choix 1 du main
+    //Faire appel  l'inscription d'un tudiant  une UV : conf choix 1 du main
 
 
     return racine_abr;

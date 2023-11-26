@@ -200,6 +200,30 @@ void afficherInscriptions(T_Arbre abr) {
     afficherInscriptions(abr->filsDroit);
 }
 
+void afficherInscriptionsUV(T_Arbre abr, char *code) {
+    if (abr == NULL) {
+        // Si l'arbre est vide, il n'y a rien à afficher.
+        return;
+    }
+
+    // Appel récursif sur le sous-arbre gauche.
+    afficherInscriptionsUV(abr->filsGauche, code);
+
+    // Vérifier si l'étudiant est inscrit à l'UV spécifiée.
+    T_Element *currentElement = abr->listeInscriptions;
+    while (currentElement != NULL) {
+        if (strcmp(currentElement->code_uv, code) == 0) {
+            // Si l'étudiant est inscrit à cette UV, on peut faire l'affichage
+            printf("%s %s est inscrit à l'UV %s\n", abr->nom, abr->prenom, code);
+            break; // Pas besoin de vérifier les autres UVs vu qu'elles ne doivent être présentes qu'une seule fois chacunes
+        }
+        currentElement = currentElement->suivant;
+    }
+
+    // Appel récursif sur le sous-arbre droit.
+    afficherInscriptionsUV(abr->filsDroit, code);
+}
+
 void lireFichier(T_Arbre abr, char *nomFichier) {
     FILE *fichier = fopen(nomFichier, "r");
     char ligne[100];

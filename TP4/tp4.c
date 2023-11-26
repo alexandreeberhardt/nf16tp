@@ -13,38 +13,9 @@ T_Element * creerInscription(char* code)//Initialise une inscription à une UV
 }
 
 
-/////////////////////////////////////////
-T_Element *ajouterInscription(T_Element *liste, char* code){
-	T_Element* nouveauE = malloc(sizeof(T_Element));
-	if (nouveauE==NULL) return 0;
-	if (strcmp(liste->code_uv,code)==0)//parcourir la liste des inscriptions pour verifier + ajoute rpar ordre alaphabetique
-    {
-        printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
-        return 0;
-     }
-    else if (strcmp(liste->code_uv,code)>0){
-        nouveauE->code_uv=code;
-        nouveauE->suivant=liste;
-        liste=nouveauE;
-    }
-        else if (liste->suivant==NULL&&strcmp(liste->code_uv,code)<0){ // double verification pas nécessaire mais on sécurise
-            nouveauE->code_uv=code;
-            nouveauE->suivant=NULL;
-            liste->suivant=nouveauE;
-        }
-            else {
-                ajouterInscription(liste->suivant,code);
-            }
-
-    return liste;
-
-}
-/////////////////////////////////////////
-
-
 T_Element *rechercherInscription(T_Element *liste, char* code){
     T_Element*pred=malloc(sizeof(T_Element));
-    if(pred==NULL)return 0;
+    if(pred==NULL)return NULL;
     if (liste==NULL){
         pred=0;
     }else {
@@ -54,7 +25,7 @@ T_Element *rechercherInscription(T_Element *liste, char* code){
             liste=liste->suivant;
         }
     }
-    return pred;
+    return liste;
 }
 
 T_Element*pred(T_Element *liste, char*code)
@@ -74,10 +45,52 @@ T_Element*pred(T_Element *liste, char*code)
     }
 }
 
+T_Element *ajouterInscription(T_Element *liste, char* code){
+	T_Element* nouveauE = malloc(sizeof(T_Element));
+	T_Element* tmp = malloc(sizeof(T_Element));
+	T_Element* recherche = malloc(sizeof(T_Element));
+	if (recherche==NULL || tmp==NULL || nouveauE==NULL) return 0;
+	recherche = rechercherInscription(liste, code);
+	nouveauE=liste;
+	if (recherche!=NULL && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
+    {
+        printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
+        return 0;
+    }else
+    {   if (strcmp(nouveauE->code_uv,code)<0)//a place en debut de liste par ordre alphabetique
+        {
+            tmp=nouveauE->suivant;
+            nouveauE->code_uv=code;
+            nouveauE->suivant=tmp;
+            liste=nouveauE;
+        }else
+        {
+
+            while(strcmp(nouveauE->code_uv,code)>0 || nouveauE==0)
+            {
+                nouveauE=nouveauE->suivant;
+            }
+            nouveauE->code_uv=code;
+            recherche = pred(liste, code);
+            if (recherche->suivant!=0)//a placer au milieu de la liste
+            {
+                tmp=recherche->suivant;
+                recherche->suivant=nouveauE;
+                nouveauE->suivant=tmp;
+            }else if(recherche->suivant==0)//a placer en fin de liste
+            {
+                recherche->suivant=nouveauE;
+                nouveauE->suivant=NULL;
+            }
+        }
+    }
+    return liste;
+
+}
 
 T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
 {
-    int cmp, cpm2;
+    int cmp, cmp2;
     T_Noeud*N=malloc(sizeof(T_Noeud));
     if(N==NULL)return 0;
 
@@ -85,18 +98,17 @@ T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
     while(N!=NULL && N->nom==nom && N->prenom==prenom)
     {
         cmp = strcmp(N->nom, nom);
-        cmp2 = strcmp (N->prenom, prenom);
+        cmp2 = strcmp(N->prenom, prenom);
         if((cmp > 0) || (cmp == 0 && cmp2>0))
         {
             N = N->filsDroit;
-        else if((cmp < 0) || (cmp == 0 && cmp2<0))
+        }else if((cmp < 0) || (cmp == 0 && cmp2<0))
         {
             N = N->filsGauche;
         }
     }
             return N;
-} // creer cette fct à utiliser dans T_Arbre inscrire
-
+}
 
 T_Arbre creerNoeud(char *nom, char *prenom, char *code)
 {
@@ -113,6 +125,19 @@ T_Arbre creerNoeud(char *nom, char *prenom, char *code)
 
 /////////////////////////////////////////
 T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
+	T_Arbre etudiant = malloc(sizeof(T_Arbre));
+	T_Arbre nouveauE = malloc(sizeof(T_Arbre));
+	T_Element* nouveauI = malloc(sizeof(T_Element));
+	if (nouveauE==NULL || etudiant==NULL || nouveauI==NULL) return NULL;
+	etudiant =rechercherNoeud(abr, nom, prenom);
+	if (etudiant!=NULL)//l'etudiant existe, on lui ajoute l'inscription
+    {
+        nouveauI = ajouterInscription(etudiant->listeInscription, code);
+    }else{//il faut creer l'etudiant
+
+    }
+
+    nouveauE = creerNoeud(nom, prenom, code);
 	if (abr->nom==NULL&&abr->prenom==NULL){
 		abr->nom=nom;
 		abr->prenom=prenom;

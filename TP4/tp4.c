@@ -75,18 +75,27 @@ T_Element*pred(T_Element *liste, char*code)
 }
 
 
-/////////////////////////////////////////
 T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
 {
+    int cmp, cpm2;
     T_Noeud*N=malloc(sizeof(T_Noeud));
     if(N==NULL)return 0;
 
     N=abr;
-    return N;
+    while(N!=NULL && N->nom==nom && N->prenom==prenom)
+    {
+        cmp = strcmp(N->nom, nom);
+        cmp2 = strcmp (N->prenom, prenom);
+        if((cmp > 0) || (cmp == 0 && cmp2>0))
+        {
+            N = N->filsDroit;
+        else if((cmp < 0) || (cmp == 0 && cmp2<0))
+        {
+            N = N->filsGauche;
+        }
+    }
+            return N;
 } // creer cette fct à utiliser dans T_Arbre inscrire
-
-/////////////////////////////////////////
-
 
 
 T_Arbre creerNoeud(char *nom, char *prenom, char *code)

@@ -13,32 +13,51 @@ T_Element * creerInscription(char* code)//Initialise une inscription  une UV
 }
 
 
-T_Element *rechercherInscription(T_Element *liste, char* code){
+T_Element * rechercherInscription(T_Element *liste, char* code){
+    printf("\n000000000\n");
     T_Element*pred=malloc(sizeof(T_Element));
-    if(pred==NULL)return NULL;
+    T_Element*la_liste=malloc(sizeof(T_Element));
+    if(pred==NULL && la_liste==NULL)return NULL;
+    la_liste = liste;
     if (liste==NULL){
+        printf("\nLa liste est vide\n");
         pred=0;
+        return 0;
     }else {
-        while(liste->code_uv!=code || liste!=NULL)
+        printf("\n11111111\n");
+        while(la_liste!=NULL && la_liste->code_uv!=code)
         {
-            pred=liste;
-            liste=liste->suivant;
+            pred=la_liste;
+            printf("\n%s JJJJJ\n",la_liste->code_uv);
+            la_liste=la_liste->suivant;
+            printf("\nMMMMMMMM\n");
+
         }
+        printf("PFFF\n");
     }
+
+
+
+    printf("\n%sAAAA\n",liste->code_uv);
     return liste;
 }
 
 T_Element*pred(T_Element *liste, char*code)
 {
+    printf("\n PPPPP\n");
     T_Element*y=malloc(sizeof(T_Element));
     if(y==NULL)return 0;
-    if (code==liste->code_uv)
+
+    if (liste->code_uv==code)
     {
+        printf("\n QQQQQ\n");
         return NULL;
     }else{
         y=liste;
-        while(y->suivant->code_uv!=code)
+        printf("\n DDDDD\n");
+        while(y->suivant!=NULL && y->suivant->code_uv!=code)
         {
+            printf("\n SSSSSS\n");
             y=y->suivant;
         }
         return y;
@@ -46,44 +65,64 @@ T_Element*pred(T_Element *liste, char*code)
 }
 
 T_Element *ajouterInscription(T_Element *liste, char* code){
+    printf("\nLLLLLLLLLLL");
 	T_Element* nouveauE = malloc(sizeof(T_Element));
+	T_Element* newInscription = malloc(sizeof(T_Element));
 	T_Element* tmp = malloc(sizeof(T_Element));
-	T_Element* recherche = malloc(sizeof(T_Element));
-	if (recherche==NULL || tmp==NULL || nouveauE==NULL) return 0;
-	recherche = rechercherInscription(liste, code);
+	T_Element* tmp2 = malloc(sizeof(T_Element));
+	T_Element* teteL = malloc(sizeof(T_Element));
+	if (tmp2==NULL && tmp==NULL && nouveauE==NULL && teteL==NULL && newInscription==NULL) return 0;
+	teteL = liste;
+	tmp2 = rechercherInscription(liste, code);
+	printf("%s\n",tmp2->code_uv);
 	nouveauE=liste;
-	if (recherche!=NULL && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
+	if (tmp2->code_uv==code && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
     {
         printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
-        return 0;
+
     }else
-    {   if (strcmp(nouveauE->code_uv,code)<0)//a place en debut de liste par ordre alphabetique
+    {
+        if (strcmp(nouveauE->code_uv,code)>0)//a place en debut de liste par ordre alphabetique
         {
+            printf("\n 1 tete de liste %s\n",teteL->code_uv);
+            printf("\nZZZZZ\n");
             tmp=nouveauE->suivant;
             nouveauE->code_uv=code;
             nouveauE->suivant=tmp;
-            liste=nouveauE;
+            teteL=nouveauE;
+            printf("\n 2 tete de liste %s\n",teteL->code_uv);
         }else
         {
-
-            while(strcmp(nouveauE->code_uv,code)>0 || nouveauE==0)
+            printf("\nRRRR\n");
+            while(strcmp(nouveauE->code_uv,code)<0 && nouveauE==0)
             {
                 nouveauE=nouveauE->suivant;
             }
-            nouveauE->code_uv=code;
-            recherche = pred(liste, code);
-            if (recherche->suivant!=0)//a placer au milieu de la liste
+            printf("\n nouveau E%s\n",nouveauE->code_uv);
+            tmp=nouveauE;
+            printf("\n tmp  %s\n",tmp->code_uv);
+            newInscription->code_uv=code;
+            printf("\n EEEE  %s\n",newInscription->code_uv);
+            //nouveauE->code_uv=code;
+            //printf("\n EEEE  %s\n",nouveauE->code_uv);
+
+            if(tmp->suivant==NULL)//a placer en fin de liste
             {
-                tmp=recherche->suivant;
-                recherche->suivant=nouveauE;
-                nouveauE->suivant=tmp;
-            }else if(recherche->suivant==0)//a placer en fin de liste
-            {
-                recherche->suivant=nouveauE;
-                nouveauE->suivant=NULL;
+                printf("\n UUUU\n");
+                tmp->suivant=newInscription;
+                printf("\n tmp suivant  %s\n",tmp->suivant->code_uv);
+                newInscription->suivant=NULL;
+            }else{
+                printf("\n YYYYY\n");
+                tmp2 = tmp->suivant;
+                tmp->suivant=newInscription;
+                newInscription->suivant=tmp2;
             }
+
         }
     }
+    printf("FINNN %s ",liste->code_uv);
+    printf("FINNN %s ",liste->suivant->code_uv);
     return liste;
 
 }
@@ -177,17 +216,17 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
 void afficherInscriptions(T_Arbre abr) {
     if (abr == NULL) {
  // si null on ne revoie rien
-        return;
+        return NULL;
     }
 
 // appel recursif sur l'arbre gauche
-    afficherInscriptions(abr->filsGauche);
+    return afficherInscriptions(abr->filsGauche);
 
 //affichage normal
     printf(" %s %s: ", abr->nom, abr->prenom);
     T_Element *currentElement = abr->listeInscriptions;
     if (currentElement == NULL) {
-        printf("pas d'inscription.\n"); // ce n'est pas supposé arriver
+        printf("pas d'inscription.\n"); // ce n'est pas suppos arriver
     } else {
         while (currentElement != NULL) {
             printf("%s ", currentElement->code_uv);
@@ -196,10 +235,9 @@ void afficherInscriptions(T_Arbre abr) {
         printf("\n");
     }
 
-// appel  récursif sur l'arbre droit
-    afficherInscriptions(abr->filsDroit);
+// appel  rcursif sur l'arbre droit
+    return afficherInscriptions(abr->filsDroit);
 }
-
 void afficherInscriptionsUV(T_Arbre abr, char *code) {
     if (abr == NULL) {
         // Si l'arbre est vide, il n'y a rien à afficher.
@@ -224,6 +262,7 @@ void afficherInscriptionsUV(T_Arbre abr, char *code) {
     afficherInscriptionsUV(abr->filsDroit, code);
 }
 
+
 void lireFichier(T_Arbre abr, char *nomFichier) {
     FILE *fichier = fopen(nomFichier, "r");
     char ligne[100];
@@ -246,6 +285,7 @@ void lireFichier(T_Arbre abr, char *nomFichier) {
 
     fclose(fichier);
 }
+
 
 /*Car_Fichier(char* filename){ // affiche le caractre lu du fichier
     char chaine_fichier;
@@ -304,7 +344,7 @@ void strupr_(char* s){//permet de mettre en maj
 
 }*/
 
-void supprimerListe(T_Element *c){
+/*void supprimerListe(T_Element *c){
     T_Element *tmp = c;
     while(tmp){
         c = c->suivant;
@@ -390,7 +430,7 @@ T_Arbre supprimerInscription(T_Arbre abr, char*nom, char*prenom, char*code)
         }
     }
     return abr;
-}
+}*/
 
 // Vider le buffer (utile quand on utlise des getchar() )
 void viderBuffer() {

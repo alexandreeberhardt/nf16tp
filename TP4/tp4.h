@@ -27,3 +27,8 @@ void afficherInscriptions(T_Arbre abr);
 void strupr_(char* s);
 void viderBuffer();
 
+T_Element*pred(T_Element *liste, char*code);
+T_Element *rechercherInscription(T_Element *liste, char* code);
+T_Element * creerInscription(char* code);
+T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom);
+T_Arbre creerNoeud(char *nom, char *prenom, char *code);

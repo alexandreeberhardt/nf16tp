@@ -249,11 +249,11 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
 void afficherInscriptions(T_Arbre abr) {
     if (abr == NULL) {
  // si null on ne revoie rien
-        return NULL;
+        return;
     }
 
 // appel recursif sur l'arbre gauche
-    return afficherInscriptions(abr->filsGauche);
+    afficherInscriptions(abr->filsGauche);
 
 //affichage normal
     printf(" %s %s: ", abr->nom, abr->prenom);
@@ -269,7 +269,7 @@ void afficherInscriptions(T_Arbre abr) {
     }
 
 // appel  rcursif sur l'arbre droit
-    return afficherInscriptions(abr->filsDroit);
+    afficherInscriptions(abr->filsDroit);
 }
 void afficherInscriptionsUV(T_Arbre abr, char *code) {
     if (abr == NULL) {

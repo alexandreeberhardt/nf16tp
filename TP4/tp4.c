@@ -472,6 +472,34 @@ T_Arbre supprimerInscription(T_Arbre abr, char*nom, char*prenom, char*code)
 }*/
 
 // Vider le buffer (utile quand on utlise des getchar() )
+
+void libererListeInscriptions(T_Element* liste) {
+    while (liste != NULL) {
+        T_Element* temp = liste;
+        liste = liste->suivant;
+        free(temp->code_uv);
+        free(temp);
+    }
+}
+
+void SupprimerTout(T_Arbre abr) {
+    if (abr == NULL) {
+        return;
+    }
+
+    SupprimerTout(abr->filsGauche); // Libère la sous-arbre gauche
+    SupprimerTout(abr->filsDroit); // Libère la sous-arbre droit
+
+    // Libère la liste des inscriptions du nœud
+    libererListeInscriptions(abr->listeInscriptions);
+
+    // Libère le nœud
+    free(abr->nom);
+    free(abr->prenom);
+    free(abr);
+}
+
+
 void viderBuffer() {
     int c = 0;
     while (c != '\n' && c != EOF) {

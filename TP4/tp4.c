@@ -296,6 +296,9 @@ T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
         nom = strtok(ligne, ";");
         prenom = strtok(NULL, ";");
         code_uv = strtok(NULL, "\n");
+        strupr_(nom);
+        strupr_(prenom);
+        strupr_(code_uv);
         printf("%s %s %s\n",nom,prenom,code_uv);
         if (nom && prenom && code_uv) {
             abr = inscrire(abr, nom, prenom, code_uv);

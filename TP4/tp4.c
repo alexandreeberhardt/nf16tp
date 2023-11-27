@@ -198,11 +198,11 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
             pere = tmp;
             cmp = strcmp(tmp->nom, nom);
             cmp2 = strcmp(tmp->prenom, prenom);
-            if((cmp > 0) || (cmp == 0 && cmp2>0))
+            if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
                 tmp = tmp->filsDroit;
                 //printf("\nfils droit\n");
-            }else if((cmp < 0) || (cmp == 0 && cmp2<0))
+            }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
                 tmp = tmp->filsGauche;
                 //printf("\nfils gauche\n");
@@ -221,7 +221,7 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
             //printf("\n LLLLLLL\n");
             cmp = strcmp(pere->nom, nom);
             cmp2 = strcmp(pere->prenom, prenom);
-            if((cmp > 0) || (cmp == 0 && cmp2>0))
+            if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
                 //printf("\n 444444\n");
                 nouveauE = creerNoeud(nom, prenom, code);
@@ -230,7 +230,7 @@ T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
                 pere->filsDroit= nouveauE;
                 //abr=pere;
                 //printf("\nOOOOO %s %s %s\n", pere->filsDroit->nom, pere->filsDroit->prenom, pere->filsDroit->listeInscriptions->code_uv);
-            }else if((cmp < 0) || (cmp == 0 && cmp2<0))
+            }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
                 //printf("\n 55555\n");
                 nouveauE = creerNoeud(nom, prenom, code);
@@ -331,7 +331,7 @@ T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
     }
 }*/
 
-void strupr_(char* s){//permet de mettre en maj
+char* strupr_(char* s){//permet de mettre en maj
     while(*s != '\0'){
         if(*s >= 'a' && *s <= 'z'){
             *s += 'A' - 'a';
@@ -473,4 +473,3 @@ void viderBuffer() {
         c = getchar();
     }
 }
-

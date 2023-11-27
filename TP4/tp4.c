@@ -83,7 +83,7 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
         //if (!strcmp(tmp2->code_uv,code) && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
 
             //printf("\n ARGHH");
-            printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
+            //printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
         }else{
             //printf("\n 2222");
             if (strcmp(nouveauE->code_uv,code)>0)//a place en debut de liste par ordre alphabetique
@@ -128,17 +128,21 @@ T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
     if(N==NULL)return 0;
 
     N=abr;
-    while(N!=NULL && strcmp(N->nom,nom)!=0 && strcmp(N->prenom, prenom))
+    while((N!=NULL && strcmp(N->nom,nom)!=0) || (N!=NULL && strcmp(N->prenom, prenom)!=0))
     {
 
         cmp = strcmp(N->nom, nom);
         cmp2 = strcmp(N->prenom, prenom);
-        if((cmp > 0) || (cmp == 0 && cmp2>0))
+        if((cmp > 0)||(cmp == 0 && cmp2>0))
         {
-            N = N->filsDroit;
-        }else if((cmp < 0)|| (cmp == 0 && cmp2<0))
-        {
+            //printf("\n G BULLLLEEE");
             N = N->filsGauche;
+        }else if((cmp < 0)||(cmp == 0 && cmp2<0))
+        {
+            //printf("\n D OOOOOOOOO");
+            N = N->filsDroit;
+        }else{
+            printf("\n SASECHAPEE");
         }
     }
     return N;
@@ -173,41 +177,51 @@ T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
 	etudiant =rechercherNoeud(abr, nom, prenom);
 	if (etudiant!=NULL)//l'etudiant existe, on lui ajoute l'inscription
     {
+        //printf("\nETUDIANT EXISTE");
         nouveauI = ajouterInscription(etudiant->listeInscriptions, code);
         etudiant->listeInscriptions = nouveauI;
     }else{//il faut creer l'etudiant
+        //printf("\nETUDIANT A CREER");
         tmp = abr;
         while(tmp !=NULL)
         {
+            //printf("\nboucle pour arb!=0");
             pere = tmp;
             cmp = strcmp(tmp->nom, nom);
             cmp2 = strcmp(tmp->prenom, prenom);
             if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
+                //printf("\nboucle pour Droit!");
                 tmp = tmp->filsDroit;
             }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
+                //printf("\nboucle pour gauche!");
                 tmp = tmp->filsGauche;
             }
+
         }
         if (abr==NULL)//arbre vide
         {
+            //printf("\n ARBRE NUL");
             nouveauE = creerNoeud(nom, prenom, code);
             nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
             nouveauE->listeInscriptions = nouveauI;
             abr = nouveauE;
         }else
         {
+            //printf("\n ARBRE NON NUL OK");
             cmp = strcmp(pere->nom, nom);
             cmp2 = strcmp(pere->prenom, prenom);
             if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
+                //printf("\n FILS DROIT OK");
                 nouveauE = creerNoeud(nom, prenom, code);
                 nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
                 nouveauE->listeInscriptions = nouveauI;
                 pere->filsDroit= nouveauE;
             }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
+                //printf("\n FILS GAUCHE OK");
                 nouveauE = creerNoeud(nom, prenom, code);
                 nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
                 nouveauE->listeInscriptions = nouveauI;
@@ -282,7 +296,7 @@ T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
         nom = strtok(ligne, ";");
         prenom = strtok(NULL, ";");
         code_uv = strtok(NULL, "\n");
-        printf("%s %s %s",nom,prenom,code_uv);
+        printf("%s %s %s\n",nom,prenom,code_uv);
         if (nom && prenom && code_uv) {
             abr = inscrire(abr, nom, prenom, code_uv);
         }
@@ -454,13 +468,13 @@ void SupprimerTout(T_Arbre abr) {
         return;
     }
 
-    SupprimerTout(abr->filsGauche); // LibÃ¨re la sous-arbre gauche
-    SupprimerTout(abr->filsDroit); // LibÃ¨re la sous-arbre droit
+    SupprimerTout(abr->filsGauche); // Libère la sous-arbre gauche
+    SupprimerTout(abr->filsDroit); // Libère la sous-arbre droit
 
-    // LibÃ¨re la liste des inscriptions du nÅ“ud
+    // Libère la liste des inscriptions du nœud
     libererListeInscriptions(abr->listeInscriptions);
 
-    // LibÃ¨re le nÅ“ud
+    // Libère le nœud
     free(abr->nom);
     free(abr->prenom);
     free(abr);
@@ -473,3 +487,4 @@ void viderBuffer() {
         c = getchar();
     }
 }
+

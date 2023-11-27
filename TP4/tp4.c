@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "tp4.h"
+
+
 T_Element * creerInscription(char* code)//Initialise une inscription  une UV
 {
     T_Element*nouvIns=malloc(sizeof(T_Element));

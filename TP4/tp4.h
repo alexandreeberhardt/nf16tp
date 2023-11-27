@@ -25,7 +25,7 @@ T_Element *ajouterInscription(T_Element *liste, char* code);
 T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code);
 void afficherInscriptions(T_Arbre abr);
 void afficherInscriptionsUV(T_Arbre abr, char *code);
-void strupr_(char* s);
+char* strupr_(char* s);
 void viderBuffer();
 T_Arbre lireFichier(T_Arbre abr, char *nomFichier);
 T_Element*pred(T_Element *liste, char*code);

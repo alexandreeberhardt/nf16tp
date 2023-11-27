@@ -296,7 +296,7 @@ void afficherInscriptionsUV(T_Arbre abr, char *code) {
 }
 
 
-void lireFichier(T_Arbre abr, char *nomFichier) {
+T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
     FILE *fichier = fopen(nomFichier, "r");
     char ligne[100];
     char *nom, *prenom, *code_uv;
@@ -310,13 +310,14 @@ void lireFichier(T_Arbre abr, char *nomFichier) {
         nom = strtok(ligne, ";");
         prenom = strtok(NULL, ";");
         code_uv = strtok(NULL, "\n");
-
+        printf("%s %s %s",nom,prenom,code_uv);
         if (nom && prenom && code_uv) {
             abr = inscrire(abr, nom, prenom, code_uv);
         }
     }
 
     fclose(fichier);
+    return abr;
 }
 
 

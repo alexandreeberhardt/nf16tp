@@ -5,8 +5,10 @@
 int main()
 {
     T_Arbre abr=NULL;
+     FILE *file;
 
-    char *nomFichier;
+    char filename[100], ch;
+    char nomFichier[100];
     char *nom=malloc(sizeof(100*sizeof(char)));
     char *prenom=malloc(sizeof(100*sizeof(char)));
     char *code=malloc(sizeof(4*sizeof(char)));
@@ -57,9 +59,9 @@ int main()
 
             case '2' :
                 printf("Entrez le nom du fichier : ");
-                scanf("%99s", nomFichier);
+                scanf("%s", nomFichier);
                 viderBuffer();
-                lireFichier(abr, nomFichier);
+                abr = lireFichier(abr, nomFichier);
                 break;
 
             case '3' :
@@ -74,7 +76,24 @@ int main()
 
                 break;
             case '5' :
-                
+
+
+                printf("Entrez le nom du fichier à ouvrir : ");
+                scanf("%s", filename);
+
+                // Ouvre le fichier en mode lecture
+                file = fopen(filename, "r");
+
+                if (file == NULL) {
+                    printf("Impossible d'ouvrir le fichier %s\n", filename);
+                }
+
+                // Lit et affiche le contenu du fichier
+                while ((ch = fgetc(file)) != EOF)
+                    putchar(ch);
+
+                // Ferme le fichier
+                fclose(file);
                 break;
 
             case '6' :

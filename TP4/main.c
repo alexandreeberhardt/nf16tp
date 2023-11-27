@@ -30,7 +30,7 @@ int main()
         switch (choix) {
             case '1' :
 
-                printf("test");
+                printf("\n");
 
                 char *nom1=malloc(sizeof(100*sizeof(char)));
                 char *prenom1=malloc(sizeof(100*sizeof(char)));
@@ -77,9 +77,24 @@ int main()
 
                 break;
             case '5' :
+                printf("\nVeuillez saisir en majuscule le NOM de l'etudiant dont vous souhaitez supprimer une inscription\n");
+                char *nom3=malloc(sizeof(100*sizeof(char)));
+                char *prenom3=malloc(sizeof(100*sizeof(char)));
+                char *code3=malloc(sizeof(100*sizeof(char)));
+                scanf("%s",nom3);
+                strupr_(nom3);
+                viderBuffer();
 
+                printf("\nVeuillez saisir en majuscule le PRENOM:\n");
+                scanf("%s",prenom3);
+                strupr_(prenom3);
+                viderBuffer();
 
-               
+                printf("\nVeuillez saisir en majuscule le CODE de l'UV a supprimer:\n");
+                scanf("%s",code3);
+                strupr_(code3);
+                //printf("%s",code1);
+                supprimerInscription(abr, nom3, prenom3, code3);
                 break;
 
             case '6' :
@@ -96,4 +111,3 @@ int main()
     }
     return 0;
 }
-

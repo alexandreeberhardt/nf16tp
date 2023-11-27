@@ -96,6 +96,7 @@ int main()
                 break;
 
             case '6' :
+                SupprimerTout(abr);
 
                 break;
             default :

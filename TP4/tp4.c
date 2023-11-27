@@ -25,7 +25,7 @@ T_Element * rechercherInscription(T_Element *liste, char* code){
         return 0;
     }else {
         //printf("\n11111111\n");
-        while(la_liste!=NULL && la_liste->code_uv!=code)
+        while(la_liste!=NULL && strcmp(la_liste->code_uv,code))
         {
             pred=la_liste;
             //printf("\n%s JJJJJ\n",la_liste->code_uv);
@@ -55,7 +55,7 @@ T_Element*pred(T_Element *liste, char*code)
     }else{
         y=liste;
         //printf("\n DDDDD\n");
-        while(y->suivant!=NULL && y->suivant->code_uv!=code)
+        while(y->suivant!=NULL && strcmp(y->suivant->code_uv,code))
         {
             //printf("\n SSSSSS\n");
             y=y->suivant;
@@ -79,7 +79,7 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
 	if (tmp2!=NULL)
     {
 
-        if (tmp2->code_uv==code && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
+        if (!strcmp(tmp2->code_uv,code) && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
     {
         printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
 
@@ -273,25 +273,25 @@ void afficherInscriptions(T_Arbre abr) {
 }
 void afficherInscriptionsUV(T_Arbre abr, char *code) {
     if (abr == NULL) {
-        // Si l'arbre est vide, il n'y a rien à afficher.
+        // Si l'arbre est vide, il n'y a rien  afficher.
         return;
     }
 
-    // Appel récursif sur le sous-arbre gauche.
+    // Appel rcursif sur le sous-arbre gauche.
     afficherInscriptionsUV(abr->filsGauche, code);
 
-    // Vérifier si l'étudiant est inscrit à l'UV spécifiée.
+    // Vrifier si l'tudiant est inscrit  l'UV spcifie.
     T_Element *currentElement = abr->listeInscriptions;
     while (currentElement != NULL) {
         if (strcmp(currentElement->code_uv, code) == 0) {
-            // Si l'étudiant est inscrit à cette UV, on peut faire l'affichage
-            printf("%s %s est inscrit à l'UV %s\n", abr->nom, abr->prenom, code);
-            break; // Pas besoin de vérifier les autres UVs vu qu'elles ne doivent être présentes qu'une seule fois chacunes
+            // Si l'tudiant est inscrit  cette UV, on peut faire l'affichage
+            printf("%s %s est inscrit  l'UV %s\n", abr->nom, abr->prenom, code);
+            break; // Pas besoin de vrifier les autres UVs vu qu'elles ne doivent tre prsentes qu'une seule fois chacunes
         }
         currentElement = currentElement->suivant;
     }
 
-    // Appel récursif sur le sous-arbre droit.
+    // Appel rcursif sur le sous-arbre droit.
     afficherInscriptionsUV(abr->filsDroit, code);
 }
 

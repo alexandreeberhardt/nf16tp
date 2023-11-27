@@ -29,7 +29,7 @@ int main()
         printf("\n");
         switch (choix) {
             case '1' :
-                
+
                 printf("test");
 
                 char *nom1=malloc(sizeof(100*sizeof(char)));
@@ -50,9 +50,9 @@ int main()
                 scanf("%s",code1);
                 strupr_(code1);
                 //printf("%s",code1);
-                
+
                 abr = inscrire(abr, nom1, prenom1,code1);
-               
+
                 break;
 
 
@@ -70,14 +70,16 @@ int main()
 
             case '4' :
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
-                scanf("%s",code);
-                afficherInscriptionsUV(abr, code);
+                char *code2=malloc(sizeof(100*sizeof(char)));
+                scanf("%s",code2);
+                strupr_(code2);
+                afficherInscriptionsUV(abr, code2);
 
                 break;
             case '5' :
 
 
-                printf("Entrez le nom du fichier Ã  ouvrir : ");
+                printf("Entrez le nom du fichier à ouvrir : ");
                 scanf("%s", filename);
 
                 // Ouvre le fichier en mode lecture
@@ -109,3 +111,4 @@ int main()
     }
     return 0;
 }
+

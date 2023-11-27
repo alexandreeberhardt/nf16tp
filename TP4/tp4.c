@@ -329,45 +329,7 @@ char* strupr_(char* s){//permet de mettre en maj
     }
 }
 
-/*T_Arbre chargerFichier(T_Arbre abr, char *filename){
-    T_Arbre racine_abr=malloc(sizeof(T_Arbre));
-    racine_abr=abr;
-    char*NOM;
-    char*PRENOM;
-    char*CODE_UV;
-    while(filename!="\n"){
-        while(filename !=";"){
-            NOM=+filemane;
-        }
-    }
-    //se spare par les "; " et les "\n"
-    //1ere chose : lire la premiere ligne
-    if (*filename!="\n"){
-
-        //ici faire appel  une fonction qui extrait les nom prenom et de la ligne !
-        //puis suivre du fait d'inscrire l'tudiant
-
-        if (*filemane != ";"){
-            if (*filename != " "){
-                Nom = Car_Fichier //plutot utiliser tant que/ while
-            }
-
-        }
-    }//fin du fichier  = \0
-    //Parcourir le fichier texte jusqu' la ligne suivante
-
-    //Faire appel  l'inscription d'un tudiant  une UV : conf choix 1 du main
-
-
-    return racine_abr;
-}*/
-
-/*void afficherInscriptionsUV(T_Arbre abr,char*code)
-{
-
-}*/
-
-/*void supprimerListe(T_Element *c){
+void supprimerListe(T_Element *c){
     T_Element *tmp = c;
     while(tmp){
         c = c->suivant;
@@ -438,7 +400,7 @@ T_Arbre supprimerInscription(T_Arbre abr, char*nom, char*prenom, char*code)
         if (tmpi==NULL && inscrip->suivant==NULL)
         {
             printf("C'est la seule inscription de l'Etudiant.\n");
-            supprimerNoeud(abr, nom);
+            supprimer_Noeud(abr, nom, prenom);
         }else //la liste d'uv ne sera pas nulle apres la suppression de l'inscription
         {
             if(tmpi==NULL)
@@ -453,7 +415,7 @@ T_Arbre supprimerInscription(T_Arbre abr, char*nom, char*prenom, char*code)
         }
     }
     return abr;
-}*/
+}
 
 // Vider le buffer (utile quand on utlise des getchar() )
 

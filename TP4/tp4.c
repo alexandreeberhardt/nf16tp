@@ -554,7 +554,9 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
 
 T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
     T_Arbre node = rechercherNoeud(abr, nom, prenom);
-    if (node == NULL) return abr; // L'étudiant n'est pas trouvé
+    if (node == NULL) {    printf("%s %s n'est pas dans l'arbre",nom,prenom);
+
+ return abr;} // L'étudiant n'est pas trouvé
 
     node->listeInscriptions = supprimerElementListe(node->listeInscriptions, code);
 

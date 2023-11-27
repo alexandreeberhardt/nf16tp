@@ -22,7 +22,7 @@ typedef T_Noeud* T_Arbre;
 
 void afficherInscriptionsUV(T_Arbre abr, char *code);
 T_Element *ajouterInscription(T_Element *liste, char* code);
-T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code);
+T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex);
 void afficherInscriptions(T_Arbre abr);
 void afficherInscriptionsUV(T_Arbre abr, char *code);
 char* strupr_(char* s);

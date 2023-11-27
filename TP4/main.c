@@ -29,6 +29,7 @@ int main()
         printf("\n");
         switch (choix) {
             case '1' :
+                
                 printf("test");
 
                 char *nom1=malloc(sizeof(100*sizeof(char)));
@@ -37,6 +38,7 @@ int main()
                 printf("\nVeuillez saisir en majuscule le NOM:\n");
                 scanf("%s",nom1);
                 strupr_(nom1);
+                //printf("%s",nom1);
                 viderBuffer();
 
                 printf("\nVeuillez saisir en majuscule le PRENOM:\n");
@@ -46,14 +48,11 @@ int main()
 
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
                 scanf("%s",code1);
-                viderBuffer();
-                if (abr!=0) printf("\nOOOO %s %s %s\n", abr->nom, abr->prenom, abr->listeInscriptions->code_uv);
-
-
-                //abr1 = inscrire(abr, Nom1, Prenom1, code1);
+                strupr_(code1);
+                //printf("%s",code1);
+                
                 abr = inscrire(abr, nom1, prenom1,code1);
-                printf("\ntest 2 %s %s %s\n", abr->nom, abr->prenom, abr->listeInscriptions->code_uv);
-                viderBuffer();
+               
                 break;
 
 

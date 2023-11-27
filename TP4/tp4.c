@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "tp4.h"
-
 T_Element * creerInscription(char* code)//Initialise une inscription  une UV
 {
     T_Element*nouvIns=malloc(sizeof(T_Element));
@@ -14,18 +9,18 @@ T_Element * creerInscription(char* code)//Initialise une inscription  une UV
 
 
 T_Element * rechercherInscription(T_Element *liste, char* code){
-    //printf("\n000000000\n");
     T_Element*pred=malloc(sizeof(T_Element));
     T_Element*la_liste=malloc(sizeof(T_Element));
     if(pred==NULL && la_liste==NULL)return NULL;
     la_liste = liste;
-    if (liste==NULL){
+    if (liste->code_uv==NULL){
         printf("\nLa liste est vide\n");
         pred=0;
         return 0;
     }else {
         //printf("\n11111111\n");
-        while(la_liste!=NULL && strcmp(la_liste->code_uv,code))
+        //pred=la_liste;
+        while(la_liste!=NULL && strcmp(la_liste->code_uv,code)!=0)
         {
             pred=la_liste;
             //printf("\n%s JJJJJ\n",la_liste->code_uv);
@@ -33,31 +28,32 @@ T_Element * rechercherInscription(T_Element *liste, char* code){
             //printf("\nMMMMMMMM\n");
 
         }
+        /*if (strcmp(la_liste->code_uv,code)!=0)
+        {
+            pred=la_liste;
+        }*/
         //printf("PFFF\n");
     }
 
 
 
-    //printf("\n%sAAAA\n",liste->code_uv);
-    return liste;
+    //printf("\n%sAAAA\n",la_liste->code_uv);
+    //return pred;
+    return la_liste;
 }
 
 T_Element*pred(T_Element *liste, char*code)
 {
-    //printf("\n PPPPP\n");
     T_Element*y=malloc(sizeof(T_Element));
     if(y==NULL)return 0;
 
     if (liste->code_uv==code)
     {
-        //printf("\n QQQQQ\n");
         return NULL;
     }else{
         y=liste;
-        //printf("\n DDDDD\n");
-        while(y->suivant!=NULL && strcmp(y->suivant->code_uv,code))
+        while(y->suivant!=NULL && strcmp(y->suivant->code_uv,code)!=0)
         {
-            //printf("\n SSSSSS\n");
             y=y->suivant;
         }
         return y;
@@ -65,7 +61,6 @@ T_Element*pred(T_Element *liste, char*code)
 }
 
 T_Element *ajouterInscription(T_Element *liste, char* code){
-    //printf("\nLLLLLLLLLLL");
 	T_Element* nouveauE = malloc(sizeof(T_Element));
 	T_Element* newInscription = malloc(sizeof(T_Element));
 	T_Element* tmp = malloc(sizeof(T_Element));
@@ -74,65 +69,49 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
 	if (tmp2==NULL && tmp==NULL && nouveauE==NULL && teteL==NULL && newInscription==NULL) return 0;
 	teteL = liste;
 	tmp2 = rechercherInscription(liste, code);
-	//printf("%s\n",tmp2->code_uv);
 	nouveauE=liste;
-	if (tmp2!=NULL)
+	if (liste!=NULL)
     {
+        //printf("\n PFFFF");
+        if (tmp2!=NULL && strcmp(tmp2->code_uv,code)==0){
+        //if (!strcmp(tmp2->code_uv,code) && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
 
-        if (!strcmp(tmp2->code_uv,code) && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
-    {
-        printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
-
-    }else
-    {
-        if (strcmp(nouveauE->code_uv,code)>0)//a place en debut de liste par ordre alphabetique
-        {
-            //printf("\n 1 tete de liste %s\n",teteL->code_uv);
-            //printf("\nZZZZZ\n");
-            tmp=nouveauE;
-            newInscription->code_uv=code;
-            newInscription->suivant=tmp;
-            liste=newInscription;
-            //printf("\n 2 tete de liste %s\n",liste->code_uv);
-            //printf("\n suite de liste %s\n",liste->suivant->code_uv);
-        }else
-        {
-            //printf("\nRRRR\n");
-            while(strcmp(nouveauE->code_uv,code)<0 && nouveauE==0)
+            //printf("\n ARGHH");
+            printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
+        }else{
+            //printf("\n 2222");
+            if (strcmp(nouveauE->code_uv,code)>0)//a place en debut de liste par ordre alphabetique
             {
-                nouveauE=nouveauE->suivant;
-            }
-            //printf("\n nouveau E%s\n",nouveauE->code_uv);
-            tmp=nouveauE;
-            //printf("\n tmp  %s\n",tmp->code_uv);
-            newInscription->code_uv=code;
-            //printf("\n EEEE  %s\n",newInscription->code_uv);
-            //nouveauE->code_uv=code;
-            //printf("\n EEEE  %s\n",nouveauE->code_uv);
-
-            if(tmp->suivant==NULL)//a placer en fin de liste
-            {
-                //printf("\n UUUU\n");
-                tmp->suivant=newInscription;
-                printf("\n tmp suivant  %s\n",tmp->suivant->code_uv);
-                newInscription->suivant=NULL;
+                tmp=nouveauE;
+                newInscription->code_uv=code;
+                newInscription->suivant=tmp;
+                liste=newInscription;
             }else{
-                //printf("\n YYYYY\n");
-                tmp2 = tmp->suivant;
-                tmp->suivant=newInscription;
-                newInscription->suivant=tmp2;
+                while(strcmp(nouveauE->code_uv,code)<0 && nouveauE->suivant!=NULL)
+                {
+                    tmp=nouveauE;
+                    nouveauE=nouveauE->suivant;
+                }
+                //printf("\n %s", nouveauE->code_uv);
+                newInscription->code_uv=code;
+                if((nouveauE->suivant==NULL)&& (strcmp(nouveauE->code_uv,code)<0))//a placer en fin de liste
+                {
+                    nouveauE->suivant=newInscription;
+                    newInscription->suivant=NULL;
+                }else{
+                    tmp2 = tmp->suivant;
+                    tmp->suivant=newInscription;
+                    newInscription->suivant=tmp2;
+                }
             }
-        }
         }
     }else{//place dans la liste vide
+        //printf("\n PTUAINRIFHVDIHIJHQESDKFJ");
         newInscription->code_uv=code;
         newInscription->suivant=NULL;
         liste=newInscription;
     }
-    //printf("FINNN %s ",liste->code_uv);
-
     return liste;
-
 }
 
 
@@ -150,17 +129,12 @@ T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
         cmp2 = strcmp(N->prenom, prenom);
         if((cmp > 0) || (cmp == 0 && cmp2>0))
         {
-            //printf("\n 111111\n");
             N = N->filsDroit;
         }else if((cmp < 0)|| (cmp == 0 && cmp2<0))
         {
-            //printf("\n 22222\n");
             N = N->filsGauche;
         }
-        //printf("\n 333333\n");
     }
-
-        //printf("\n 444444\n");
     return N;
 }
 
@@ -182,7 +156,7 @@ T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
     char * nom = strdup( nomx );
     char * prenom = strdup( prenomx );
     char * code = strdup( codex );
-    
+
 	int cmp, cmp2;
 	T_Arbre etudiant = malloc(sizeof(T_Arbre));
 	T_Arbre tmp = malloc(sizeof(T_Arbre));
@@ -199,57 +173,44 @@ T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
         tmp = abr;
         while(tmp !=NULL)
         {
-            //printf("\n 11111\n");
             pere = tmp;
             cmp = strcmp(tmp->nom, nom);
             cmp2 = strcmp(tmp->prenom, prenom);
             if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
                 tmp = tmp->filsDroit;
-                //printf("\nfils droit\n");
             }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
                 tmp = tmp->filsGauche;
-                //printf("\nfils gauche\n");
             }
         }
-        //printf("\n 22222\n");
         if (abr==NULL)//arbre vide
         {
-            //printf("\n 333333\n");
             nouveauE = creerNoeud(nom, prenom, code);
             nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
             nouveauE->listeInscriptions = nouveauI;
             abr = nouveauE;
         }else
         {
-            //printf("\n LLLLLLL\n");
             cmp = strcmp(pere->nom, nom);
             cmp2 = strcmp(pere->prenom, prenom);
             if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
-                //printf("\n 444444\n");
                 nouveauE = creerNoeud(nom, prenom, code);
                 nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
                 nouveauE->listeInscriptions = nouveauI;
                 pere->filsDroit= nouveauE;
-                //abr=pere;
-                //printf("\nOOOOO %s %s %s\n", pere->filsDroit->nom, pere->filsDroit->prenom, pere->filsDroit->listeInscriptions->code_uv);
             }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
-                //printf("\n 55555\n");
                 nouveauE = creerNoeud(nom, prenom, code);
                 nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
                 nouveauE->listeInscriptions = nouveauI;
                 pere->filsGauche = nouveauE;
-                //abr=pere;
             }
         }
     }
-    //printf("\n SSSSSSs\n");
     return abr;
 }
-
 
 void afficherInscriptions(T_Arbre abr) {
     if (abr == NULL) {

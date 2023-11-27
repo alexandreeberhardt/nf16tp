@@ -5,8 +5,8 @@
 int main()
 {
     T_Arbre abr = NULL;
-    char *nom=malloc(sizeof(100*sizeof(char)));
-    char *prenom=malloc(sizeof(100*sizeof(char)));
+                   char nom[100], prenom[100], codeUV[10];
+
     char *code=malloc(sizeof(4*sizeof(char)));
     char *nomFichier=malloc(sizeof(100*sizeof(char)));
     // ============= MENU UTILISATEUR ============= */
@@ -26,20 +26,20 @@ int main()
         printf("\n");
         switch (choix) {
             case '1' :
-                printf("\nVeuillez saisir en majuscule le NOM:\n");
-                scanf("%s",nom);
-                strupr_(nom);
 
-                printf("\nVeuillez saisir en majuscule le PRENOM:\n");
-                scanf("%s",prenom);
-                strupr_(prenom);
+    // Demander à l'utilisateur de saisir le nom, le prénom et le code de l'UV
+    printf("Entrez le nom de l'etudiant : ");
+    scanf("%99s", nom); // Utilisation de %99s pour éviter le dépassement de tampon
+    printf("Entrez le prenom de l'etudiant : ");
+    scanf("%99s", prenom);
+    printf("Entrez le code de l'UV : ");
+    scanf("%9s", codeUV);
 
-                printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
-                scanf("%s",code);
+    // Appel de la fonction inscrire
+    abr = inscrire(abr, nom, prenom, codeUV);
+    printf("Etudiant inscrit avec succes.\n");
 
-                inscrire(abr, nom, prenom, code);
-                break;
-
+    break;
             case '2' :
                     printf("Entrez le nom du fichier : ");
                     scanf("%99s", nomFichier);

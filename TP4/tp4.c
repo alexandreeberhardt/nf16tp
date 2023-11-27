@@ -177,7 +177,12 @@ T_Arbre creerNoeud(char *nom, char *prenom, char *code)
 }// creer cette fct  utiliser dans T_Arbre inscrire
 
 
-T_Arbre inscrire(T_Arbre abr, char *nom, char *prenom, char *code){
+T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
+
+    char * nom = strdup( nomx );
+    char * prenom = strdup( prenomx );
+    char * code = strdup( codex );
+    
 	int cmp, cmp2;
 	T_Arbre etudiant = malloc(sizeof(T_Arbre));
 	T_Arbre tmp = malloc(sizeof(T_Arbre));

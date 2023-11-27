@@ -518,14 +518,12 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
     if (abr == NULL) return NULL;
 
     // Recherche du nœud à supprimer
-    if (strcmp(nom, abr->nom) < 0) {
+    if (strcmp(nom, abr->nom) < 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) < 0)) {
         abr->filsGauche = supprimerNoeud(abr->filsGauche, nom, prenom);
-    } else if (strcmp(nom, abr->nom) > 0) {
-        abr->filsDroit = supprimerNoeud(abr->filsDroit, nom, prenom);
-    } else if (strcmp(prenom, abr->prenom) != 0) {
+    } else if (strcmp(nom, abr->nom) > 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) > 0)) {
         abr->filsDroit = supprimerNoeud(abr->filsDroit, nom, prenom);
     } else {
-        // Nœud avec un seul fils ou sans fils
+        // noeud trouvé
         if (abr->filsGauche == NULL) {
             T_Arbre temp = abr->filsDroit;
             free(abr->nom);
@@ -542,20 +540,23 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
 
         // Nœud avec deux fils
         T_Arbre temp = trouverMinimum(abr->filsDroit);
-        abr->nom = strdup(temp->nom); // Copie le nom du successeur
-        abr->prenom = strdup(temp->prenom); // Copie le prénom du successeur
+        free(abr->nom);
+        free(abr->prenom);
+        abr->nom = strdup(temp->nom); 
+        abr->prenom = strdup(temp->prenom); 
         abr->filsDroit = supprimerNoeud(abr->filsDroit, temp->nom, temp->prenom);
     }
     return abr;
 }
 
+
 T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
     T_Arbre node = rechercherNoeud(abr, nom, prenom);
-    if (node == NULL) return abr; // L'étudiant n'est pas trouvé
+    if (node == NULL) return abr;
 
     node->listeInscriptions = supprimerElementListe(node->listeInscriptions, code);
 
-    // Si l'étudiant n'a plus d'inscriptions, supprimer le nœud
+    // Si l'étudiant n'a plus d'inscriptions, on supprime le noeuud
     if (node->listeInscriptions == NULL) {
         abr = supprimerNoeud(abr, nom, prenom);
     }

@@ -5,16 +5,11 @@
 int main()
 {
     T_Arbre abr=NULL;
-    T_Arbre abr1=NULL;
-    T_Arbre noeud, noeud1, noeud2, noeud3=NULL;
 
     char *nomFichier;
     char *nom=malloc(sizeof(100*sizeof(char)));
     char *prenom=malloc(sizeof(100*sizeof(char)));
     char *code=malloc(sizeof(4*sizeof(char)));
-    char *Nom1=malloc(sizeof(100*sizeof(char)));
-    char *Prenom1=malloc(sizeof(100*sizeof(char)));
-    char *code1=malloc(sizeof(4*sizeof(char)));
     // ============= MENU UTILISATEUR ============= */
     char choix = '0';
     while (choix != '9') {

@@ -55,7 +55,7 @@ int main()
             case '4' :
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
                 scanf("%s",code);
-                void afficherInscriptionsUV(T_Arbre abr, char *code) {
+                void afficherInscriptionsUV(T_Arbre abr, char *code);
 
                 break;
 

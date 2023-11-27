@@ -8,7 +8,7 @@ int main()
     char *nom=malloc(sizeof(100*sizeof(char)));
     char *prenom=malloc(sizeof(100*sizeof(char)));
     char *code=malloc(sizeof(4*sizeof(char)));
-    char *nomFichier==malloc(sizeof(100*sizeof(char)));
+    char *nomFichier=malloc(sizeof(100*sizeof(char)));
     // ============= MENU UTILISATEUR ============= */
     char choix = '0';
     while (choix != '6') {

@@ -79,22 +79,7 @@ int main()
             case '5' :
 
 
-                printf("Entrez le nom du fichier à ouvrir : ");
-                scanf("%s", filename);
-
-                // Ouvre le fichier en mode lecture
-                file = fopen(filename, "r");
-
-                if (file == NULL) {
-                    printf("Impossible d'ouvrir le fichier %s\n", filename);
-                }
-
-                // Lit et affiche le contenu du fichier
-                while ((ch = fgetc(file)) != EOF)
-                    putchar(ch);
-
-                // Ferme le fichier
-                fclose(file);
+               
                 break;
 
             case '6' :

@@ -33,3 +33,5 @@ T_Element *rechercherInscription(T_Element *liste, char* code);
 T_Element * creerInscription(char* code);
 T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom);
 T_Arbre creerNoeud(char *nom, char *prenom, char *code);
+void SupprimerTout(T_Arbre abr);
+void libererListeInscriptions(T_Element* liste);

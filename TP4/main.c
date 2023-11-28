@@ -42,6 +42,8 @@ int main()
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
                 scanf("%s",code);
                 strupr_(code);
+                viderBuffer();
+
                 abr = inscrire(abr, nom, prenom,code);
 
                 break;
@@ -55,18 +57,22 @@ int main()
                 break;
 
             case '3' :
+                viderBuffer();
                 afficherInscriptions(abr);
                 break;
 
             case '4' :
+                viderBuffer();
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
                 scanf("%s",code);
                 strupr_(code);
-                afficherInscriptionsUV(abr, code);
+                viderBuffer();
 
+                afficherInscriptionsUV(abr, code);
+                viderBuffer();
                 break;
             case '5' :
-
+                viderBuffer();
                 printf("\nVeuillez saisir en majuscule le NOM:\n");
                 scanf("%s",nom);
                 strupr_(nom);
@@ -81,12 +87,16 @@ int main()
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
                 scanf("%s",code);
                 strupr_(code);
+                viderBuffer();
+
                 abr = supprimerInscription(abr, nom, prenom, code);
+                viderBuffer();
 
 
                 break;
 
             case '6' :
+                viderBuffer();
                 SupprimerTout(abr);
 
                 break;

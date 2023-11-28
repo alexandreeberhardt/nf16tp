@@ -133,7 +133,7 @@ T_Arbre creerNoeud(char *nom, char *prenom, char *code)
     nouvN->filsGauche=NULL;
     nouvN->filsDroit=NULL;
     return nouvN;
-}// creer cette fct  utiliser dans T_Arbre inscrire
+}
 
 
 T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
@@ -434,14 +434,16 @@ T_Arbre supprimerInscription(T_Arbre abr, char*nom, char*prenom, char*code)
 // Vider le buffer (utile quand on utlise des getchar() )
 
 void libererListeInscriptions(T_Element* liste) {
-    while (liste != NULL) {
-        T_Element* temp = liste;
-        liste = liste->suivant;
-        free(temp->code_uv);
-        free(temp);
+    T_Element *actuel, *suivant;
+
+    actuel = liste;
+    while (actuel != NULL) {
+        suivant = actuel->suivant;
+        free(actuel->code_uv);
+        free(actuel);
+        actuel = suivant;
     }
 }
-
 void SupprimerTout(T_Arbre abr) {
     if (abr == NULL) {
         return;
@@ -450,10 +452,7 @@ void SupprimerTout(T_Arbre abr) {
     SupprimerTout(abr->filsGauche); // Libre la sous-arbre gauche
     SupprimerTout(abr->filsDroit); // Libre la sous-arbre droit
 
-    // Libre la liste des inscriptions du noeud
     libererListeInscriptions(abr->listeInscriptions);
-
-    // Libre le nud
     free(abr->nom);
     free(abr->prenom);
     free(abr);
@@ -506,6 +505,7 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
             T_Arbre temp = abr->filsDroit;
             free(abr->nom);
             free(abr->prenom);
+
             free(abr);
             return temp;
         } else if (abr->filsDroit == NULL) {
@@ -543,6 +543,8 @@ T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
 
     return abr;
 }
+
+
 
 
 

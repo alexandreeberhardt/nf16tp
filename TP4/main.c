@@ -12,10 +12,6 @@ int main()
     char *nom=malloc(sizeof(100*sizeof(char)));
     char *prenom=malloc(sizeof(100*sizeof(char)));
     char *code=malloc(sizeof(4*sizeof(char)));
-    char *noma=malloc(sizeof(100*sizeof(char)));
-    char *prenoma=malloc(sizeof(100*sizeof(char)));
-    char *codea=malloc(sizeof(100*sizeof(char)));
-    // ============= MENU UTILISATEUR ============= */
     char choix = '0';
     while (choix != '6') {
         printf("\n======================================");
@@ -33,28 +29,20 @@ int main()
         switch (choix) {
             case '1' :
 
-                printf("test");
-
-                char *nom1=malloc(sizeof(100*sizeof(char)));
-                char *prenom1=malloc(sizeof(100*sizeof(char)));
-                char *code1=malloc(sizeof(100*sizeof(char)));
                 printf("\nVeuillez saisir en majuscule le NOM:\n");
-                scanf("%s",nom1);
-                strupr_(nom1);
-                //printf("%s",nom1);
+                scanf("%s",nom);
+                strupr_(nom);
                 viderBuffer();
 
                 printf("\nVeuillez saisir en majuscule le PRENOM:\n");
-                scanf("%s",prenom1);
-                strupr_(prenom1);
+                scanf("%s",prenom);
+                strupr_(prenom);
                 viderBuffer();
 
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
-                scanf("%s",code1);
-                strupr_(code1);
-                //printf("%s",code1);
-
-                abr = inscrire(abr, nom1, prenom1,code1);
+                scanf("%s",code);
+                strupr_(code);
+                abr = inscrire(abr, nom, prenom,code);
 
                 break;
 
@@ -70,32 +58,30 @@ int main()
                 afficherInscriptions(abr);
                 break;
 
-
             case '4' :
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
-                char *code2=malloc(sizeof(100*sizeof(char)));
-                scanf("%s",code2);
-                strupr_(code2);
-                afficherInscriptionsUV(abr, code2);
+                scanf("%s",code);
+                strupr_(code);
+                afficherInscriptionsUV(abr, code);
 
                 break;
             case '5' :
 
                 printf("\nVeuillez saisir en majuscule le NOM:\n");
-                scanf("%s",noma);
-                strupr_(noma);
+                scanf("%s",nom);
+                strupr_(nom);
                 //printf("%s",nom1);
                 viderBuffer();
 
                 printf("\nVeuillez saisir en majuscule le PRENOM:\n");
-                scanf("%s",prenoma);
-                strupr_(prenoma);
+                scanf("%s",prenom);
+                strupr_(prenom);
                 viderBuffer();
 
                 printf("\nVeuillez saisir en majuscule le CODE de l'UV:\n");
-                scanf("%s",codea);
-                strupr_(codea);
-            abr = supprimerInscription(abr, noma, prenoma, codea);
+                scanf("%s",code);
+                strupr_(code);
+                abr = supprimerInscription(abr, nom, prenom, code);
 
 
                 break;
@@ -110,7 +96,7 @@ int main()
                 }
         }
         printf("\n\n\n");
-        viderBuffer();
+        //viderBuffer();
     }
     return 0;
 }

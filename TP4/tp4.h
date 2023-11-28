@@ -35,3 +35,6 @@ T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom);
 T_Arbre creerNoeud(char *nom, char *prenom, char *code);
 void SupprimerTout(T_Arbre abr);
 void libererListeInscriptions(T_Element* liste);
+T_Arbre trouverMinimum(T_Arbre abr);
+T_Arbre supprimerNoeud(T_Arbre abr, char* nom, char* prenom);
+T_Arbre supprimerInscription(T_Arbre abr, char* nom, char* prenom, char* code);

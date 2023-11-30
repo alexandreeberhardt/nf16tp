@@ -13,7 +13,7 @@ T_Element * creerInscription(char* code)//Initialise une inscription  une UV
     return nouvIns;
 }
 
-T_Element * rechercherInscription(T_Element *liste, char* code){
+T_Element * rechercherInscription(T_Element *liste, char* code){// Cette fonction recherche dans la liste chainée si l’uv est déjà présente. Si oui elle renvoie NULL, sinon elle renvoie la chaine.
     T_Element*pred=malloc(sizeof(T_Element));
     T_Element*la_liste=malloc(sizeof(T_Element));
     if(pred==NULL && la_liste==NULL)return NULL;
@@ -32,7 +32,7 @@ T_Element * rechercherInscription(T_Element *liste, char* code){
     return la_liste;
 }
 
-T_Element*pred(T_Element *liste, char*code)
+T_Element*pred(T_Element *liste, char*code) // cette fonction recherche le predecesseur d'un element dans une liste, renvoie NULL si il n'est pas dans la liste, et le predecesseur sinon
 {
     T_Element*y=malloc(sizeof(T_Element));
     if(y==NULL)return 0;
@@ -50,7 +50,7 @@ T_Element*pred(T_Element *liste, char*code)
     }
 }
 
-T_Element *ajouterInscription(T_Element *liste, char* code){
+T_Element *ajouterInscription(T_Element *liste, char* code){ // ajoute un element au bon endroit de la liste des inscriptions et renvoie la liste modifiee
 	T_Element* nouveauE = malloc(sizeof(T_Element));
 	T_Element* newInscription = malloc(sizeof(T_Element));
 	T_Element* tmp = malloc(sizeof(T_Element));
@@ -100,7 +100,7 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
 }
 
 
-T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
+T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)// recherche un noeud dans l'arbre, renvoie NULL si il n'y est pas et renvoie le noeud sinon
 {
     int cmp, cmp2;
     T_Arbre N=malloc(sizeof(T_Arbre));
@@ -121,7 +121,7 @@ T_Arbre rechercherNoeud(T_Arbre abr, char *nom, char *prenom)
     return N;
 }
 
-T_Arbre creerNoeud(char *nom, char *prenom, char *code)
+T_Arbre creerNoeud(char *nom, char *prenom, char *code)// cree un noeud avec les bons noms, prenoms et initialise la list d'inscription avec le bon code. la fonction renvoie le noeud
 {
     T_Noeud*nouvN=malloc(sizeof(T_Noeud));
     if (nouvN==NULL)return 0;
@@ -134,9 +134,9 @@ T_Arbre creerNoeud(char *nom, char *prenom, char *code)
 }
 
 
-T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
+T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){ // Inscris un eleve dans l'arbre et renvoie l'arbre modifie
 
-    char * nom = strdup( nomx );
+    char * nom = strdup( nomx ); // on utilse strdup pour dupliquer la chaine de caracteres du nom et pouvoir l'attribuer au noeud.
     char * prenom = strdup( prenomx );
     char * code = strdup( codex );
 
@@ -190,7 +190,7 @@ T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
     return abr;
 }
 
-void afficherInscriptions(T_Arbre abr) {
+void afficherInscriptions(T_Arbre abr) { // affiche tous les eleves de l'arbre ainsi que leurs inscriptions dans l'ordre alphabetique
     if (abr == NULL) {
  // si null on ne revoie rien
         return;
@@ -201,13 +201,13 @@ void afficherInscriptions(T_Arbre abr) {
 
 //affichage normal
     printf(" %s %s: ", abr->nom, abr->prenom);
-    T_Element *currentElement = abr->listeInscriptions;
-    if (currentElement == NULL) {
+    T_Element *actuel = abr->listeInscriptions;
+    if (actuel == NULL) {
         printf("pas d'inscription.\n"); // ce n'est pas suppos arriver
     } else {
-        while (currentElement != NULL) {
-            printf("%s ", currentElement->code_uv);
-            currentElement = currentElement->suivant;
+        while (actuel != NULL) {
+            printf("%s ", actuel->code_uv);
+            actuel = actuel->suivant;
         }
         printf("\n");
     }
@@ -221,21 +221,20 @@ void afficherInscriptionsUV(T_Arbre abr, char *code) {
         return;
     }
 
-    // Appel rcursif sur le sous-arbre gauche.
+    // Appel recursif sur le sous-arbre gauche.
     afficherInscriptionsUV(abr->filsGauche, code);
 
-    // Vrifier si l'tudiant est inscrit  l'UV spcifie.
-    T_Element *currentElement = abr->listeInscriptions;
-    while (currentElement != NULL) {
-        if (strcmp(currentElement->code_uv, code) == 0) {
-            // Si l'tudiant est inscrit  cette UV, on peut faire l'affichage
-            printf("%s %s est inscrit  l'UV %s\n", abr->nom, abr->prenom, code);
-            break; // Pas besoin de vrifier les autres UVs vu qu'elles ne doivent tre prsentes qu'une seule fois chacunes
+    // Verifier si l'etudiant est inscrit  l'UV specifiee.
+    T_Element *actuel = abr->listeInscriptions;
+    while (actuel != NULL) {
+        if (strcmp(actuel->code_uv, code) == 0) {
+            // Si l'etudiant est inscrit a cette UV, on peut faire l'affichage
+            printf("%s %s est inscrit a l'UV %s\n", abr->nom, abr->prenom, code);
+            break; // Pas besoin de verifier les autres UVs vu qu'elles ne doivent etre presentes qu'une seule fois chacunes
         }
-        currentElement = currentElement->suivant;
+        actuel = actuel->suivant;
     }
-
-    // Appel rcursif sur le sous-arbre droit.
+    // Appel recursif sur le sous-arbre droit.
     afficherInscriptionsUV(abr->filsDroit, code);
 }
 
@@ -305,23 +304,23 @@ void SupprimerTout(T_Arbre abr) {
 
 
 T_Element* supprimerElementListe(T_Element* liste, char* code) {
-    T_Element *current = liste,
+    T_Element *actuel = liste,
     *prev = NULL;
-    while (current != NULL) {
-        if (strcmp(current->code_uv, code) == 0) {
+    while (actuel != NULL) {
+        if (strcmp(actuel->code_uv, code) == 0) {
             if (prev == NULL) {
-                liste = current->suivant;
+                liste = actuel->suivant;
             } else {
-                prev->suivant = current->suivant;
+                prev->suivant = actuel->suivant;
             }
-            free(current->code_uv);
-            free(current);
-            //on libre la mmoire du code puis du noeud supprim
+            free(actuel->code_uv);
+            free(actuel);
+            //on libere la memoire du code puis du noeud supprime
 
             return liste;
         }
-        prev = current;
-        current = current->suivant;
+        prev = actuel;
+        actuel = actuel->suivant;
         //sinon on continue le parcours
     }
     printf("L'eleve n'est pas inscrit a %s",code);
@@ -338,14 +337,14 @@ T_Arbre trouverMinimum(T_Arbre abr) {
 T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
     if (abr == NULL) return NULL;
 
-    // Recherche du nud  supprimer
+    // Recherche du noeud a supprimer
     if (strcmp(nom, abr->nom) < 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) < 0)) {
         abr->filsGauche = supprimerNoeud(abr->filsGauche, nom, prenom);
     } else if (strcmp(nom, abr->nom) > 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) > 0)) {
         abr->filsDroit = supprimerNoeud(abr->filsDroit, nom, prenom);
     } else {
-        // Trouv le nud  supprimer
-        // Nud avec un seul fils ou sans fils
+        // Trouve le noeud a supprimer
+        // Noeud avec un seul fils ou sans fils
         if (abr->filsGauche == NULL) {
             T_Arbre temp = abr->filsDroit;
             free(abr->nom);
@@ -361,12 +360,12 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
             return temp;
         }
 
-        // Nud avec deux fils
+        // Noeud avec deux fils
         T_Arbre temp = trouverMinimum(abr->filsDroit);
         free(abr->nom);
         free(abr->prenom);
         abr->nom = strdup(temp->nom); // Copie le nom du successeur
-        abr->prenom = strdup(temp->prenom);// Copie le prnom du successeur
+        abr->prenom = strdup(temp->prenom);// Copie le prenom du successeur
         abr->listeInscriptions = temp->listeInscriptions;
         abr->filsDroit = supprimerNoeud(abr->filsDroit, temp->nom, temp->prenom);
     }
@@ -374,15 +373,15 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
 }
 
 
-T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
+T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {//supprime une inscription en supprimant l'element dans la liste. si il n'y a palus d'uv, l'etudiant est supprime
     T_Arbre node = rechercherNoeud(abr, nom, prenom);
     if (node == NULL) {    printf("%s %s n'est pas dans l'arbre",nom,prenom);
 
- return abr;} // L'tudiant n'est pas trouv
+ return abr;} // L'etudiant n'est pas trouve
 
     node->listeInscriptions = supprimerElementListe(node->listeInscriptions, code);
 
-    // Si l'tudiant n'a plus d'inscriptions, supprimer le nud
+    // Si l'etudiant n'a plus d'inscriptions, supprimer le noeud
     if (node->listeInscriptions == NULL) {
         abr = supprimerNoeud(abr, nom, prenom);
     }

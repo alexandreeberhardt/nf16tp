@@ -240,7 +240,7 @@ void afficherInscriptionsUV(T_Arbre abr, char *code) {
 }
 
 
-T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
+T_Arbre chargerFichier(T_Arbre abr, char *nomFichier) {
 
     FILE *fichier = fopen(nomFichier, "r");
     char ligne[100];

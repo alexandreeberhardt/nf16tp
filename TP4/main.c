@@ -51,7 +51,7 @@ int main()
                 printf("Entrez le nom du fichier : ");
                 scanf("%s", nomFichier);
                 viderBuffer();
-                abr = lireFichier(abr, nomFichier);
+                abr = chargerFichier(abr, nomFichier);
                 printf("\n");
                 break;
 

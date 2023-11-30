@@ -5,9 +5,6 @@
 int main()
 {
     T_Arbre abr=NULL;
-     FILE *file;
-
-    char filename[100], ch;
     char nomFichier[100];
     char *nom=malloc(sizeof(100*sizeof(char)));
     char *prenom=malloc(sizeof(100*sizeof(char)));
@@ -45,6 +42,7 @@ int main()
                 viderBuffer();
 
                 abr = inscrire(abr, nom, prenom,code);
+                printf("\n");
 
                 break;
 
@@ -54,11 +52,13 @@ int main()
                 scanf("%s", nomFichier);
                 viderBuffer();
                 abr = lireFichier(abr, nomFichier);
+                printf("\n");
                 break;
 
             case '3' :
                 viderBuffer();
                 afficherInscriptions(abr);
+                printf("\n");
                 break;
 
             case '4' :
@@ -70,13 +70,13 @@ int main()
 
                 afficherInscriptionsUV(abr, code);
                 viderBuffer();
+                printf("\nAppuyez sur Entrer\n");
                 break;
             case '5' :
                 viderBuffer();
                 printf("\nVeuillez saisir en majuscule le NOM:\n");
                 scanf("%s",nom);
                 strupr_(nom);
-                //printf("%s",nom1);
                 viderBuffer();
 
                 printf("\nVeuillez saisir en majuscule le PRENOM:\n");
@@ -91,6 +91,7 @@ int main()
 
                 abr = supprimerInscription(abr, nom, prenom, code);
                 viderBuffer();
+                printf("\n");
 
 
                 break;
@@ -110,4 +111,5 @@ int main()
     }
     return 0;
 }
+
 

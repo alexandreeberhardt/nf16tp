@@ -13,7 +13,6 @@ T_Element * creerInscription(char* code)//Initialise une inscription  une UV
     return nouvIns;
 }
 
-
 T_Element * rechercherInscription(T_Element *liste, char* code){
     T_Element*pred=malloc(sizeof(T_Element));
     T_Element*la_liste=malloc(sizeof(T_Element));
@@ -64,11 +63,10 @@ T_Element *ajouterInscription(T_Element *liste, char* code){
 	if (liste!=NULL)
     {
         if (tmp2!=NULL && strcmp(tmp2->code_uv,code)==0){
-        //if (!strcmp(tmp2->code_uv,code) && nouveauE!=NULL)//permet de verifier que le code n'est pas deja dans la liste
+        //permet de verifier que le code n'est pas deja dans la liste
 
             printf("L'UV est deja ajoutee dans la liste des UV suivies pour cet etudiant.\n");
         }else{
-            //printf("\n 2222");
             if (strcmp(nouveauE->code_uv,code)>0)//a place en debut de liste par ordre alphabetique
             {
                 tmp=nouveauE;
@@ -148,58 +146,43 @@ T_Arbre inscrire(T_Arbre abr, char *nomx, char *prenomx, char *codex){
 	T_Arbre pere = malloc(sizeof(T_Arbre));
 	T_Arbre nouveauE = malloc(sizeof(T_Arbre));
 	T_Element* nouveauI = malloc(sizeof(T_Element));
-	if (nouveauE==NULL && etudiant==NULL && nouveauI==NULL && pere==NULL && tmp) return NULL;
+	if (nouveauE==NULL && etudiant==NULL && nouveauI==NULL && pere==NULL && tmp==NULL) return NULL;
 	etudiant =rechercherNoeud(abr, nom, prenom);
 	if (etudiant!=NULL)//l'etudiant existe, on lui ajoute l'inscription
     {
-        //printf("\nETUDIANT EXISTE");
         nouveauI = ajouterInscription(etudiant->listeInscriptions, code);
         etudiant->listeInscriptions = nouveauI;
     }else{//il faut creer l'etudiant
-        //printf("\nETUDIANT A CREER");
         tmp = abr;
         while(tmp !=NULL)
         {
-            //printf("\nboucle pour arb!=0");
             pere = tmp;
             cmp = strcmp(tmp->nom, nom);
             cmp2 = strcmp(tmp->prenom, prenom);
             if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
-                //printf("\nboucle pour Droit!");
                 tmp = tmp->filsDroit;
             }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
-                //printf("\nboucle pour gauche!");
                 tmp = tmp->filsGauche;
             }
 
         }
         if (abr==NULL)//arbre vide
         {
-            //printf("\n ARBRE NUL");
             nouveauE = creerNoeud(nom, prenom, code);
-            //nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
-            //nouveauE->listeInscriptions = nouveauI;
             abr = nouveauE;
         }else
         {
-            //printf("\n ARBRE NON NUL OK");
             cmp = strcmp(pere->nom, nom);
             cmp2 = strcmp(pere->prenom, prenom);
             if((cmp < 0) || (cmp == 0 && cmp2<0))
             {
-                //printf("\n FILS DROIT OK");
                 nouveauE = creerNoeud(nom, prenom, code);
-                //nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
-                //nouveauE->listeInscriptions = nouveauI;
                 pere->filsDroit= nouveauE;
             }else if((cmp > 0) || (cmp == 0 && cmp2>0))
             {
-                //printf("\n FILS GAUCHE OK");
                 nouveauE = creerNoeud(nom, prenom, code);
-                //nouveauI = ajouterInscription(nouveauE->listeInscriptions, code);
-                //nouveauE->listeInscriptions = nouveauI;
                 pere->filsGauche = nouveauE;
             }
         }
@@ -264,7 +247,7 @@ T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
     char *nom, *prenom, *code_uv;
 
     if (fichier == NULL) {
-        printf("le fichier n'a pas Ã©tÃ© trouvÃ©");
+        printf("le fichier n'a pas été trouvé");
         return abr;
     }
 
@@ -285,17 +268,6 @@ T_Arbre lireFichier(T_Arbre abr, char *nomFichier) {
     return abr;
 }
 
-
-/*Car_Fichier(char* filename){ // affiche le caractre lu du fichier
-    char chaine_fichier;
-    if (filename==";"||filename==" "||filename=="\n"){
-        return 0;
-    }
-    else {
-        *//*return chaine_fichier = {'filename', 'Car_Fichier(filename->suivant)'};
-    }
-}*/
-
 char* strupr_(char* s){//permet de mettre en maj
     while(*s != '\0'){
         if(*s >= 'a' && *s <= 'z'){
@@ -303,135 +275,8 @@ char* strupr_(char* s){//permet de mettre en maj
         }
         ++s;
     }
+    return s;
 }
-
-/*T_Arbre chargerFichier(T_Arbre abr, char *filename){
-    T_Arbre racine_abr=malloc(sizeof(T_Arbre));
-    racine_abr=abr;
-    char*NOM;
-    char*PRENOM;
-    char*CODE_UV;
-    while(filename!="\n"){
-        while(filename !=";"){
-            NOM=+filemane;
-        }
-    }
-    //se spare par les "; " et les "\n"
-    //1ere chose : lire la premiere ligne
-    if (*filename!="\n"){
-
-        //ici faire appel  une fonction qui extrait les nom prenom et de la ligne !
-        //puis suivre du fait d'inscrire l'tudiant
-
-        if (*filemane != ";"){
-            if (*filename != " "){
-                Nom = Car_Fichier //plutot utiliser tant que/ while
-            }
-
-        }
-    }//fin du fichier  = \0
-    //Parcourir le fichier texte jusqu' la ligne suivante
-
-    //Faire appel  l'inscription d'un tudiant  une UV : conf choix 1 du main
-
-
-    return racine_abr;
-}*/
-
-/*void afficherInscriptionsUV(T_Arbre abr,char*code)
-{
-
-}*/
-
-/*void supprimerListe(T_Element *c){
-    T_Element *tmp = c;
-    while(tmp){
-        c = c->suivant;
-        free(tmp);
-        tmp = c;
-    }
-}
-
-void freeNoeud(T_Noeud *p){
-    free(p->nom);
-    free(p->prenom);
-    supprimerListe(p->listeInscriptions);
-    free(p);
-}
-
-void supprimer_Noeud(T_Arbre* abr, char* nom, char* prenom){
-    T_Noeud **p = rechercherNoeud(abr, nom, prenom); //p points to [the case pointing the node to delete]
-    T_Noeud *tmp = *p; //tmp points to [the node to delete]
-    if(!*p){
-        printf("Etudiant introuve.\n");
-        return;
-    }
-    else if(!(*p)->filsGauche && !(*p)->filsDroit){ //00
-        // printf("00");
-        *p = 0;
-    }
-    else if(!(*p)->filsGauche){ //01
-        // printf("01");
-        *p = (*p)->filsDroit;
-    }
-    else if(!(*p)->filsDroit){ //10
-        // printf("10");
-        *p = (*p)->filsGauche;
-    }
-    // 11
-    else if(!tmp->filsGauche->filsDroit){
-        tmp->filsGauche->filsDroit = tmp->filsDroit;
-        *p = tmp->filsGauche;
-    }
-    else{
-        T_Noeud **p2 = &tmp->filsGauche; //p2 points to [the case pointing the node to replace]
-        while((*p2)->filsDroit) p2 = &(*p2)->filsDroit;
-        *p = *p2;
-        *p2 = (*p2)->filsGauche;
-        (*p2)->filsGauche = tmp->filsGauche;
-        (*p2)->filsDroit = tmp->filsDroit;
-    }
-    freeNoeud(tmp);
-    printf("Etudiant supprime.\n");
-    return;
-}
-
-T_Arbre supprimerInscription(T_Arbre abr, char*nom, char*prenom, char*code)
-{
-    T_Element * inscrip=malloc(sizeof(T_Element));
-    if (inscrip==NULL) return 0;
-    T_Element * tmpi=malloc(sizeof(T_Element));
-    if (tmpi==NULL) return 0;
-    T_Noeud *etudiant=malloc(sizeof(T_Noeud));
-    etudiant=rechercherNoeud(abr, nom, prenom);
-    inscrip=rechercherInscription(etudiant,code);
-    tmpi = pred(etudiant,code);
-    if (inscrip==NULL)
-    {
-        printf("Il n'y a pas d'inscription a cette UV pour cet etudiant.\n");
-        return 0;
-    }else{
-        if (tmpi==NULL && inscrip->suivant==NULL)
-        {
-            printf("C'est la seule inscription de l'Etudiant.\n");
-            supprimerNoeud(abr, nom);
-        }else //la liste d'uv ne sera pas nulle apres la suppression de l'inscription
-        {
-            if(tmpi==NULL)
-            {
-                etudiant=inscrip->suivant;
-                free(inscrip);
-            }else
-            {
-                tmpi->suivant=inscrip->suivant;
-                free(inscrip);
-            }
-        }
-    }
-    return abr;
-}*/
-
-// Vider le buffer (utile quand on utlise des getchar() )
 
 void libererListeInscriptions(T_Element* liste) {
     T_Element *actuel, *suivant;
@@ -471,7 +316,7 @@ T_Element* supprimerElementListe(T_Element* liste, char* code) {
             }
             free(current->code_uv);
             free(current);
-            //on libÃ¨re la mÃ©moire du code puis du noeud supprimÃ©
+            //on libère la mémoire du code puis du noeud supprimé
 
             return liste;
         }
@@ -493,14 +338,14 @@ T_Arbre trouverMinimum(T_Arbre abr) {
 T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
     if (abr == NULL) return NULL;
 
-    // Recherche du nÅ“ud Ã  supprimer
+    // Recherche du nœud à supprimer
     if (strcmp(nom, abr->nom) < 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) < 0)) {
         abr->filsGauche = supprimerNoeud(abr->filsGauche, nom, prenom);
     } else if (strcmp(nom, abr->nom) > 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) > 0)) {
         abr->filsDroit = supprimerNoeud(abr->filsDroit, nom, prenom);
     } else {
-        // TrouvÃ© le nÅ“ud Ã  supprimer
-        // NÅ“ud avec un seul fils ou sans fils
+        // Trouvé le nœud à supprimer
+        // Nœud avec un seul fils ou sans fils
         if (abr->filsGauche == NULL) {
             T_Arbre temp = abr->filsDroit;
             free(abr->nom);
@@ -516,12 +361,13 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
             return temp;
         }
 
-        // NÅ“ud avec deux fils
+        // Nœud avec deux fils
         T_Arbre temp = trouverMinimum(abr->filsDroit);
         free(abr->nom);
         free(abr->prenom);
         abr->nom = strdup(temp->nom); // Copie le nom du successeur
-        abr->prenom = strdup(temp->prenom); // Copie le prÃ©nom du successeur
+        abr->prenom = strdup(temp->prenom);// Copie le prénom du successeur
+        abr->listeInscriptions = temp->listeInscriptions;
         abr->filsDroit = supprimerNoeud(abr->filsDroit, temp->nom, temp->prenom);
     }
     return abr;
@@ -532,11 +378,11 @@ T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
     T_Arbre node = rechercherNoeud(abr, nom, prenom);
     if (node == NULL) {    printf("%s %s n'est pas dans l'arbre",nom,prenom);
 
- return abr;} // L'Ã©tudiant n'est pas trouvÃ©
+ return abr;} // L'étudiant n'est pas trouvé
 
     node->listeInscriptions = supprimerElementListe(node->listeInscriptions, code);
 
-    // Si l'Ã©tudiant n'a plus d'inscriptions, supprimer le nÅ“ud
+    // Si l'étudiant n'a plus d'inscriptions, supprimer le nœud
     if (node->listeInscriptions == NULL) {
         abr = supprimerNoeud(abr, nom, prenom);
     }
@@ -544,14 +390,9 @@ T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
     return abr;
 }
 
-
-
-
-
 void viderBuffer() {
     int c = 0;
     while (c != '\n' && c != EOF) {
         c = getchar();
     }
 }
-

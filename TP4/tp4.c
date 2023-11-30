@@ -247,7 +247,7 @@ T_Arbre chargerFichier(T_Arbre abr, char *nomFichier) {
     char *nom, *prenom, *code_uv;
 
     if (fichier == NULL) {
-        printf("le fichier n'a pas été trouvé");
+        printf("le fichier n'a pas ete trouve");
         return abr;
     }
 
@@ -316,7 +316,7 @@ T_Element* supprimerElementListe(T_Element* liste, char* code) {
             }
             free(current->code_uv);
             free(current);
-            //on libère la mémoire du code puis du noeud supprimé
+            //on libre la mmoire du code puis du noeud supprim
 
             return liste;
         }
@@ -338,14 +338,14 @@ T_Arbre trouverMinimum(T_Arbre abr) {
 T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
     if (abr == NULL) return NULL;
 
-    // Recherche du nœud à supprimer
+    // Recherche du nud  supprimer
     if (strcmp(nom, abr->nom) < 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) < 0)) {
         abr->filsGauche = supprimerNoeud(abr->filsGauche, nom, prenom);
     } else if (strcmp(nom, abr->nom) > 0 || (strcmp(nom, abr->nom) == 0 && strcmp(prenom, abr->prenom) > 0)) {
         abr->filsDroit = supprimerNoeud(abr->filsDroit, nom, prenom);
     } else {
-        // Trouvé le nœud à supprimer
-        // Nœud avec un seul fils ou sans fils
+        // Trouv le nud  supprimer
+        // Nud avec un seul fils ou sans fils
         if (abr->filsGauche == NULL) {
             T_Arbre temp = abr->filsDroit;
             free(abr->nom);
@@ -361,12 +361,12 @@ T_Arbre supprimerNoeud(T_Arbre abr, char *nom, char *prenom) {
             return temp;
         }
 
-        // Nœud avec deux fils
+        // Nud avec deux fils
         T_Arbre temp = trouverMinimum(abr->filsDroit);
         free(abr->nom);
         free(abr->prenom);
         abr->nom = strdup(temp->nom); // Copie le nom du successeur
-        abr->prenom = strdup(temp->prenom);// Copie le prénom du successeur
+        abr->prenom = strdup(temp->prenom);// Copie le prnom du successeur
         abr->listeInscriptions = temp->listeInscriptions;
         abr->filsDroit = supprimerNoeud(abr->filsDroit, temp->nom, temp->prenom);
     }
@@ -378,11 +378,11 @@ T_Arbre supprimerInscription(T_Arbre abr, char *nom, char *prenom, char *code) {
     T_Arbre node = rechercherNoeud(abr, nom, prenom);
     if (node == NULL) {    printf("%s %s n'est pas dans l'arbre",nom,prenom);
 
- return abr;} // L'étudiant n'est pas trouvé
+ return abr;} // L'tudiant n'est pas trouv
 
     node->listeInscriptions = supprimerElementListe(node->listeInscriptions, code);
 
-    // Si l'étudiant n'a plus d'inscriptions, supprimer le nœud
+    // Si l'tudiant n'a plus d'inscriptions, supprimer le nud
     if (node->listeInscriptions == NULL) {
         abr = supprimerNoeud(abr, nom, prenom);
     }
